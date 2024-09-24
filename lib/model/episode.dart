@@ -18,27 +18,18 @@ class Episode {
 }
 
 class EpisodeData {
-  final String name;
   final String slug;
-  final String filename;
   final String linkEmbed;
-  final String linkM3u8;
 
   EpisodeData({
-    required this.name,
     required this.slug,
-    required this.filename,
     required this.linkEmbed,
-    required this.linkM3u8,
   });
 
   factory EpisodeData.fromJson(Map<String, dynamic> json) {
     return EpisodeData(
-      name: json['name'],
       slug: json['slug'],
-      filename: json['filename'],
-      linkEmbed: json['link_embed'],
-      linkM3u8: json['link_m3u8'],
+      linkEmbed: json['link_m3u8'],
     );
   }
 }

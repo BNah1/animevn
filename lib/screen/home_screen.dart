@@ -1,6 +1,6 @@
 import 'package:animevn/screen/movie/widget/list_movie_gridview.dart';
 import 'package:animevn/widget/list_poster.dart';
-import 'package:animevn/widget/network_video_view.dart';
+import 'package:animevn/screen/videoplayer/widget/network_video_view.dart';
 import 'package:flutter/material.dart';
 import '../constant/app_color.dart';
 import '../constant/constant.dart';
@@ -60,12 +60,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 scrollDirection: Axis.vertical,
                 child: Column(children: [
                   ListPoster(),
-                  ListMovieRow(inputdata: getMovie(), title: 'Phim moi cap nhap',),
-                  ListMovieRow(inputdata: getMovie(),title: 'Phim dang theo doi'),
-                  ListMovieRow(inputdata: getMovie(),title: 'Phim top rating'),
-                  ListMovieRow(inputdata: getMovie(),title: 'Phim Vip'),
+                  ListMovieRow(inputdata: getApi(), title: 'Phim moi cap nhap',),
+                  ListMovieRow(inputdata: getApi(),title: 'Phim dang theo doi'),
+                  ListMovieRow(inputdata: getApi(),title: 'Phim top rating'),
+                  ListMovieRow(inputdata: getApi(),title: 'Phim Vip'),
                 ])),
-            ListMovieGridView(inputdata: getMovie()),
+            ListMovieGridView(inputdata: getApi()),
             Center(child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Container(

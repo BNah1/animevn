@@ -1,4 +1,4 @@
-import 'package:animevn/model/movie.dart';
+import 'package:animevn/model/apirespone.dart';
 import 'package:animevn/widget/movie_tile_homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import '../movie_screen.dart';
 class ListMovieRow extends StatefulWidget {
   const ListMovieRow({super.key, required this.inputdata, required this.title});
   final String title;
-  final Future<List<Movie>> inputdata;
+  final Future<List<ApiResponse>> inputdata;
 
   @override
   State<ListMovieRow> createState() => _ListMovieRowState();
@@ -48,7 +48,7 @@ class _ListMovieRowState extends State<ListMovieRow> {
                           Navigator.pushNamed(context, MovieScreen.routerName,
                               arguments: data[index]);
                       },
-                      child: MovieTileHomepage(name: data[index].name, posterUrl: data[index].posterUrl, height: 200, widght: 150,)
+                      child: MovieTileHomepage(name: data[index].movie.name, posterUrl: data[index].movie.posterUrl, height: 200, widght: 150,)
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {

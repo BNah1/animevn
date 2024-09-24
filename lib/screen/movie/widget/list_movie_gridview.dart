@@ -1,4 +1,4 @@
-import 'package:animevn/model/movie.dart';
+import 'package:animevn/model/apirespone.dart';
 import 'package:animevn/screen/movie/movie_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import '../../../widget/movie_tile_homepage.dart';
 class ListMovieGridView extends StatefulWidget {
   const ListMovieGridView({super.key, required this.inputdata});
 
-  final Future<List<Movie>> inputdata;
+  final Future<List<ApiResponse>> inputdata;
 
   @override
   State<ListMovieGridView> createState() => _ListMovieGridViewState();
@@ -36,11 +36,10 @@ class _ListMovieGridViewState extends State<ListMovieGridView> {
               padding: EdgeInsets.all(2),
               child: InkWell(
                   onTap: (){
-                    print(data[index]);
                     Navigator.pushNamed(context, MovieScreen.routerName,
                         arguments: data[index]);
                   },
-                  child: MovieTileHomepage(name: data[index].name, posterUrl: data[index].posterUrl,))
+                  child: MovieTileHomepage(name: data[index].movie.name, posterUrl: data[index].movie.posterUrl,))
             );
           },
         );

@@ -1,13 +1,14 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animevn/model/movie.dart';
+import 'package:animevn/model/apirespone.dart';
+import 'package:animevn/screen/videoplayer/videoplayer_screen.dart';
 import 'package:animevn/widget/text_button.dart';
 import 'package:flutter/material.dart';
 import '../../constant/const.dart';
 
 class MovieScreen extends StatefulWidget {
-  const MovieScreen({Key? key, required this.movie}) : super(key: key);
+  const MovieScreen({Key? key, required this.data}) : super(key: key);
   static const routerName = '/movie';
-  final Movie movie;
+  final ApiResponse data;
 
   @override
   State<MovieScreen> createState() => _MovieScreenState();
@@ -18,9 +19,9 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.movie.name, style: styleTileAppbar),
+        title: Text(widget.data.movie.name, style: styleTileAppbar),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -30,15 +31,14 @@ class _MovieScreenState extends State<MovieScreen> {
                 Container(
                   height: size.height * 0.51,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
                     image: DecorationImage(
-                      image: NetworkImage(widget.movie.posterUrl),
+                      image: NetworkImage(widget.data.movie.posterUrl),
                       fit: BoxFit.fill,
                     ),
                   ),
                   child: Hero(
                     transitionOnUserGestures: true,
-                    tag: widget.movie.name,
+                    tag: widget.data.movie.name,
                     child: Container(),
                   ),
                 ),
@@ -52,7 +52,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     child: Transform.translate(
                       offset: const Offset(0, 1),
                       child: Container(
-                        height: 50, // Chiều cao tùy chỉnh
+                        height: 30, // Chiều cao tùy chỉnh
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -61,6 +61,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           ),
                         ),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
                               child: Container(
@@ -87,27 +88,45 @@ class _MovieScreenState extends State<MovieScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
+                    IconTextButton(icon: Icons.start, text: 'Xem ngay',onPressed: (){
+                      Navigator.pushNamed(context, VideoplayerScreen.routerName,
+                          arguments: widget.data);
+                    },),
+                    SizedBox(height: 10,),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Nam phat hanh: '), Text(widget.movie.year),
+                      Row(
+                        children: [
+                          Text('The loai: '), Text(
+                              widget.data.movie.categories.isNotEmpty
+                                  ? widget.data.movie.categories[0].name
+                                  : 'Không có dữ liệu'),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('So tap: '), Text(widget.data.movie.episodeTotal),
+                        ],
+                      ),
+                    ],),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Row(
+                      children: [
+                        Text('Nam phat hanh: '), Text(widget.data.movie.year),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text('Thoi luong: '), Text(widget.movie.time),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text('The loai: '), Text(widget.movie.categories[0].name),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text('So tap: '), Text(widget.movie.episodeTotal),
-                      ],
-                    ),
-                    IconTextButton(icon: Icons.start, text: 'Xem ngay'),
+                      Row(
+                        children: [
+                          Text('Thoi luong: '), Text(widget.data.movie.time),
+                        ],
+                      ),],),
+                    SizedBox(height: 10,),
+                    Text('Noi dung: ', style: styleTile,),
+                    Text(widget.data.movie.content),
+
+
                   ]
                 ),
               ),

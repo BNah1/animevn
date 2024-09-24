@@ -5,7 +5,7 @@ class ApiResponse {
   final bool status;
   final String msg;
   final Movie movie;
-  final List<Episode> episodes;
+  final Episode episodes;
 
   ApiResponse({
     required this.status,
@@ -19,9 +19,7 @@ class ApiResponse {
       status: json['status'],
       msg: json['msg'],
       movie: Movie.fromJson(json['movie']),
-      episodes: (json['episodes'] as List)
-          .map((e) => Episode.fromJson(e))
-          .toList(),
+      episodes: Episode.fromJson(json['episodes']),
     );
   }
 }
