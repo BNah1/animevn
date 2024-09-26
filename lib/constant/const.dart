@@ -6,7 +6,7 @@ const sizeIconButton = 24.0;
 const dColorFooterImage = Colors.white60;
 
 final styleTileItem = TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontSize: 15,
   fontWeight: FontWeight.bold,
 );

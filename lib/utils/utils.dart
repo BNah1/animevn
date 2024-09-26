@@ -1,4 +1,3 @@
-import 'package:animevn/model/apirespone.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -26,11 +25,11 @@ Future<List<Movie>> getMovie()  async {
   return test;
 }
 
-Future<List<ApiResponse>> getApi() async{
-  await Future.delayed(Duration(seconds: 0));
-  final List<ApiResponse> test = Constants.apiResponseList;
-  return test;
-}
+// Future<List<ApiResponse>> getApi() async{
+//   await Future.delayed(Duration(seconds: 0));
+//   final List<ApiResponse> test = Constants.apiResponseList;
+//   return test;
+// }
 
 Future<List<Poster>> getPoster() async {
   await Future.delayed(Duration(seconds: 0));

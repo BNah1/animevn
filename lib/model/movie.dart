@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'category.dart';
+import 'episode.dart';
 import 'movie/country.dart';
 
 class Movie {
@@ -7,7 +10,6 @@ class Movie {
   final String originName;
   final String content;
   final String type;
-  final String status;
   final String posterUrl;
   final String thumbUrl;
   final String time;
@@ -20,6 +22,7 @@ class Movie {
   final List<String> director;
   final List<Category> categories;
   final List<Country> countries;
+  late Episode episodes;
 
   Movie({
     required this.id,
@@ -27,7 +30,6 @@ class Movie {
     required this.originName,
     required this.content,
     required this.type,
-    required this.status,
     required this.posterUrl,
     required this.thumbUrl,
     required this.time,
@@ -40,32 +42,65 @@ class Movie {
     required this.director,
     required this.categories,
     required this.countries,
+    required this.episodes,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
+  // Convert Movie to Map
+  Map<String, dynamic> toMap() {
+    return {
+      '_id': id,
+      'name': name,
+      'origin_name': originName,
+      'content': content,
+      'type': type,
+      'poster_url': posterUrl,
+      'thumb_url': thumbUrl,
+      'time': time,
+      'episode_current': episodeCurrent,
+      'episode_total': episodeTotal,
+      'quality': quality,
+      'lang': lang,
+      'year': year,
+      'actor': actor,
+      'director': director,
+      'category': categories.map((e) => e.toMap()).toList(),
+      'country': countries.map((e) => e.toMap()).toList(),
+      'episodes': episodes.toMap(),
+    };
+  }
+
+  // Create Movie from Map
+  factory Movie.fromMap(Map<String, dynamic> map) {
     return Movie(
-      id: json['_id'],
-      name: json['name'],
-      originName: json['origin_name'],
-      content: json['content'],
-      type: json['type'],
-      status: json['status'],
-      posterUrl: json['poster_url'],
-      thumbUrl: json['thumb_url'],
-      time: json['time'],
-      episodeCurrent: json['episode_current'],
-      episodeTotal: json['episode_total'],
-      quality: json['quality'],
-      lang: json['lang'],
-      year: json['year'],
-      actor: List<String>.from(json['actor']),
-      director: List<String>.from(json['director']),
-      categories: (json['category'] as List)
-          .map((e) => Category.fromJson(e))
+      id: map['_id'] ?? '',
+      name: map['name'] ?? '',
+      originName: map['origin_name'] ?? '',
+      content: map['content'] ?? '',
+      type: map['type'] ?? '',
+      posterUrl: map['poster_url'] ?? '',
+      thumbUrl: map['thumb_url'] ?? '',
+      time: map['time'] ?? '',
+      episodeCurrent: map['episode_current'] ?? '',
+      episodeTotal: map['episode_total'] ?? '',
+      quality: map['quality'] ?? '',
+      lang: map['lang'] ?? '',
+      year: map['year'].toString() ,
+      actor: List<String>.from(map['actor'] ?? ['nodata']),
+      director: List<String>.from(map['director'] ?? ['nodata']),
+      categories: (map['category'] as List<dynamic>? ?? ['nodata'])
+          .map((e) => Category.fromMap(e))
           .toList(),
-      countries: (json['country'] as List)
-          .map((e) => Country.fromJson(e))
+      countries: (map['country'] as List<dynamic>? ?? [])
+          .map((e) => Country.fromMap(e))
           .toList(),
+      episodes: Episode.fromMap(map['episodes'] as Map<String, dynamic>? ?? {}),
     );
   }
+
+  // Convert Movie to JSON string
+  String toJson() => json.encode(toMap());
+
+  // Create Movie from JSON string
+  factory Movie.fromJson(String source) =>
+      Movie.fromMap(json.decode(source) as Map<String, dynamic>);
 }

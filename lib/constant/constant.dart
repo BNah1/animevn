@@ -1,4 +1,3 @@
-import 'package:animevn/model/apirespone.dart';
 import 'package:animevn/model/episode.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +67,6 @@ class Constants {
     originName: 'Phim 1',
     content: content,
     type: 'Hành động',
-    status: 'Đang chiếu',
     posterUrl: 'https://phimimg.com//upload//vod//20240920-1//9087ee5150f26bac9ae48793befc6c10.jpg',
     thumbUrl: Constants.testImage,
     time: '120 phút',
@@ -81,6 +79,7 @@ class Constants {
     categories: [action],
     countries: [usa],
     year: '2023',
+      episodes: episode1
   );
   static Movie movie2 =  Movie(
     id: '2',
@@ -88,7 +87,6 @@ class Constants {
     originName: 'Phim 2',
     content: content,
     type: 'Hài',
-    status: 'Đang chiếu',
     posterUrl: 'https://phimimg.com//upload//vod//20240920-1//265683de955921873753f8802a78ba67.jpg',
     thumbUrl: Constants.testImage,
     time: '100 phút',
@@ -101,6 +99,7 @@ class Constants {
     categories: [drama],
     countries: [usa],
     year: '2023',
+      episodes: episode1
   );
   static Movie movie3 =  Movie(
     id: '3',
@@ -108,7 +107,6 @@ class Constants {
     originName: 'Phim 3',
     content: content,
     type: 'Kinh dị',
-    status: 'Sắp chiếu',
     posterUrl: 'https://phimimg.com//upload//vod//20240920-1//649b3d26d7f469eddba585430bdf9fb5.jpg',
     thumbUrl: Constants.testImage,
     time: '90 phút',
@@ -121,6 +119,7 @@ class Constants {
     categories: [],
     countries: [uk],
     year: '2023',
+      episodes: episode1
   );
   static Movie movie4 =  Movie(
     id: '4',
@@ -128,7 +127,6 @@ class Constants {
     originName: 'Phim 4',
     content: content,
     type: 'Phiêu lưu',
-    status: 'Đang chiếu',
     posterUrl: 'https://phimimg.com//upload//vod//20231029-1//134b92a92d78f905d7c60f92a8b03846.jpg',
     thumbUrl: Constants.testImage,
     time: '110 phút',
@@ -141,6 +139,7 @@ class Constants {
     categories: [],
     countries: [japan],
     year: '2023',
+      episodes: episode1
   );
   static Movie movie5 =  Movie(
     id: '5',
@@ -148,7 +147,6 @@ class Constants {
     originName: 'Phim 5',
     content: content,
     type: 'Phiêu lưu',
-    status: 'Đang chiếu',
     posterUrl: 'https://phimimg.com//upload//vod//20230929-1//a6110983f8de490e116383020adc4662.jpg',
     thumbUrl: Constants.testImage,
     time: '110 phút',
@@ -161,21 +159,16 @@ class Constants {
     categories: [],
     countries: [japan],
     year: '2023',
+      episodes: episode1
   );
 
-  static EpisodeData data1 = EpisodeData(slug: 'Tap 1', linkEmbed: 'https:\/\/s2.phim1280.tv\/20230907\/S7BVCpM0\/index.m3u8');
-  static EpisodeData data2 = EpisodeData(slug: 'Tap 2', linkEmbed: 'https:\/\/s2.phim1280.tv\/20230907\/IvNmZP16\/index.m3u8');
-  static EpisodeData data3 = EpisodeData(slug: 'Tap 3', linkEmbed: 'https:\/\/s2.phim1280.tv\/20230907\/VOdl4WMe\/index.m3u8');
-  static EpisodeData data4 = EpisodeData(slug: 'Tap 4', linkEmbed: 'ttps:\/\/s2.phim1280.tv\/20230907\/daZYcVlQ\/index.m3u8');
+  static EpisodeData data1 = EpisodeData(slug: 'Tap 1', link_m3u8: 'https:\/\/s2.phim1280.tv\/20230907\/S7BVCpM0\/index.m3u8');
+  static EpisodeData data2 = EpisodeData(slug: 'Tap 2', link_m3u8: 'https:\/\/s2.phim1280.tv\/20230907\/IvNmZP16\/index.m3u8');
+  static EpisodeData data3 = EpisodeData(slug: 'Tap 3', link_m3u8: 'https:\/\/s2.phim1280.tv\/20230907\/VOdl4WMe\/index.m3u8');
+  static EpisodeData data4 = EpisodeData(slug: 'Tap 4', link_m3u8: 'ttps:\/\/s2.phim1280.tv\/20230907\/daZYcVlQ\/index.m3u8');
 
   static Episode episode1 = Episode(serverName: 'Wibu', serverData: [data1, data2, data3, data4]);
   static List<Movie> movieList = [movie1, movie2, movie3, movie4, movie5 ];
-  static ApiResponse api1 = ApiResponse(status: true, msg: 'nope', movie: movie1, episodes: episode1);
-  static ApiResponse api2 = ApiResponse(status: true, msg: 'nope', movie: movie2, episodes: episode1);
-  static ApiResponse api3 = ApiResponse(status: true, msg: 'nope', movie: movie3, episodes: episode1);
-  static ApiResponse api4 = ApiResponse(status: true, msg: 'nope', movie: movie4, episodes: episode1);
-  static ApiResponse api5 = ApiResponse(status: true, msg: 'nope', movie: movie5, episodes: episode1);
-  static List<ApiResponse> apiResponseList = [api1, api2, api3, api4, api5];
 
 
   static List<Poster> posterList = [

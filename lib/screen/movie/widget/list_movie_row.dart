@@ -1,15 +1,24 @@
-import 'package:animevn/model/apirespone.dart';
+import 'package:animevn/bloc/movie/movie_bloc.dart';
+import 'package:animevn/bloc/movie/movie_event.dart';
+import 'package:animevn/bloc/movie/movie_state.dart';
 import 'package:animevn/widget/movie_tile_homepage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../constant/const.dart';
+import '../../../widget/loading.dart';
 import '../movie_screen.dart';
 
 class ListMovieRow extends StatefulWidget {
-  const ListMovieRow({super.key, required this.inputdata, required this.title});
+  const ListMovieRow(
+      {super.key,
+      required this.title,
+      required this.link,
+      required this.isPage});
+
   final String title;
-  final Future<List<ApiResponse>> inputdata;
+  final String link;
+  final bool isPage;
 
   @override
   State<ListMovieRow> createState() => _ListMovieRowState();
@@ -18,50 +27,62 @@ class ListMovieRow extends StatefulWidget {
 class _ListMovieRowState extends State<ListMovieRow> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                widget.title,
-                style: styleTile,
-              )),
-          FutureBuilder(
-            future: widget.inputdata,
-            initialData: [],
-            builder: (context, asyncData) {
-              var data = [];
-              if (asyncData.hasData) {
-                data = asyncData.data! as List;
-              } else {
-                Container(child: const Text('nodata'));
-              }
-              return SizedBox(
-                height: 230,
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                          Navigator.pushNamed(context, MovieScreen.routerName,
-                              arguments: data[index]);
+    return BlocProvider(
+        create: (context) => MovieBloc()
+          ..add(widget.isPage == true
+              ? LoadApiResponseWithPage(widget.link)
+              : LoadApiResponse(widget.link)),
+        child: BlocBuilder<MovieBloc, MovieState>(builder: (context, state) {
+          if (state is MovieLoading) {
+            return const Loader();
+          } else if (state is MovieError) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else if (state is ApiLoaded) {
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Text(
+                        widget.title,
+                        style: styleTile,
+                      )),
+                  SizedBox(
+                    height: 230,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MovieScreen.routerName,
+                                  arguments: state.listApi[index].slug);
+                            },
+                            child: MovieTileHomepage(
+                              name: state.listApi[index].name,
+                              posterUrl: widget.isPage == true
+                                  ? state.listApi[index].posterUrl
+                                  : 'https://phimimg.com/${state.listApi[index].posterUrl}',
+                              height: 200,
+                              widght: 150,
+                            ));
                       },
-                      child: MovieTileHomepage(name: data[index].movie.name, posterUrl: data[index].movie.posterUrl, height: 200, widght: 150,)
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      width: 10,
-                    );
-                  },
-                  itemCount: data.length,
-                  scrollDirection: Axis.horizontal,
-                ),
-              );
-            },
-          ),
-        ]);
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const SizedBox(
+                          width: 10,
+                        );
+                      },
+                      itemCount: state.listApi.length,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  )
+                ]);
+          }
+          return Container();
+        }));
   }
 }

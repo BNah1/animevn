@@ -1,10 +1,10 @@
-import 'package:animevn/screen/movie/widget/list_movie_gridview.dart';
+import 'package:animevn/screen/search_screen.dart';
 import 'package:animevn/widget/list_poster.dart';
 import 'package:animevn/screen/videoplayer/widget/network_video_view.dart';
 import 'package:flutter/material.dart';
 import '../constant/app_color.dart';
 import '../constant/constant.dart';
-import '../utils/utils.dart';
+import 'movie/widget/list_movie_gridview.dart';
 import 'movie/widget/list_movie_row.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -60,12 +60,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 scrollDirection: Axis.vertical,
                 child: Column(children: [
                   ListPoster(),
-                  ListMovieRow(inputdata: getApi(), title: 'Phim moi cap nhap',),
-                  ListMovieRow(inputdata: getApi(),title: 'Phim dang theo doi'),
-                  ListMovieRow(inputdata: getApi(),title: 'Phim top rating'),
-                  ListMovieRow(inputdata: getApi(),title: 'Phim Vip'),
+                  ListMovieRow(title: 'Anime', link: 'https://phimapi.com/v1/api/danh-sach/hoat-hinh', isPage: false,),
+                  ListMovieRow(title: 'TV-Show', link: 'https://phimapi.com/v1/api/danh-sach/tv-shows', isPage: false,),
+                  ListMovieRow(title: 'Phim mới cập nhập', link: 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=2', isPage: true,),
+                  ListMovieRow(title: 'Phim lẻ', link: 'https://phimapi.com/v1/api/danh-sach/phim-le', isPage: false,),
+                  ListMovieRow(title: 'Phim bộ', link: 'https://phimapi.com/v1/api/danh-sach/phim-bo', isPage: false,),
                 ])),
-            ListMovieGridView(inputdata: getApi()),
+            ListMovieGridView(),
             Center(child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Container(
@@ -92,7 +93,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       );
 
   Widget _buildSearchWidget() => InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, SearchScreen.routeName);
+        },
         child: Icon(
           Icons.search,
         ),
