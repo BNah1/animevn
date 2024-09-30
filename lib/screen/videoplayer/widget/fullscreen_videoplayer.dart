@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/services.dart';
-import 'dart:async'; // Thêm thư viện này để sử dụng Timer
+import 'dart:async'; 
 
 class FullScreenVideoPlayer extends StatefulWidget {
   const FullScreenVideoPlayer({
@@ -39,10 +39,10 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
 
   @override
   void dispose() {
-    _videoPlayerController.pause(); // Dừng video
-    _videoPlayerController.dispose(); // Giải phóng controller
+    _videoPlayerController.pause();
+    _videoPlayerController.dispose();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    _hideFabTimer?.cancel(); // Hủy timer khi dispose
+    _hideFabTimer?.cancel(); // Hủy timer
     super.dispose();
   }
 
@@ -76,7 +76,7 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
         floatingActionButton: _isFabVisible
             ? FloatingActionButton(
           onPressed: () {
-            Navigator.pop(context); // Thoát khỏi chế độ toàn màn hình
+            Navigator.pop(context);
             _videoPlayerController.pause();
             _videoPlayerController.dispose();
           },
