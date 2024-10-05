@@ -6,6 +6,8 @@ import 'package:animevn/model/apistatus.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../utils/utils.dart';
+
 class StorageBloc extends Bloc<StorageEvent, StorageState> {
   StorageBloc() : super(StorageState({})) {
     on<LoadJson>((event, emit) async {
@@ -42,6 +44,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
               seen:items[event.slug]!.seen,
               favourite: true
           );
+          showToastMessage(text: 'Đã thêm  ${event.slug} vào yêu thích');
       } else if (items.containsKey(event.slug) && items[event.slug]?.favourite == true){
         if(items[event.slug]?.seen == true){
           items[event.slug] = ApiStatus(
@@ -51,6 +54,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
           );
         } else {
           items.remove(event.slug);
+          showToastMessage(text: 'Đã xoá ${event.slug} ra khỏi danh sách');
         }
       }
       emit(StorageState(items));

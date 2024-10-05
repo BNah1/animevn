@@ -13,7 +13,7 @@
   },
   {
     "favourite": true,
-    "seen": false,
+    "seen": true,
     "api": {
       "slug": "tad-truy-tim-kho-bau-3-loi-nguyen-xac-uop",
       "name": "Tad, the Lost Explorer and the Emerald Tablet",

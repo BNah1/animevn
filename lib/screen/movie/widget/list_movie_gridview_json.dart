@@ -29,7 +29,18 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
           Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Text(widget.title,style: styleTile,)),
-          items.isEmpty ? Expanded(child: Center(child: Text('nodata'))) : Expanded(
+          items.isEmpty ? Expanded(child: Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Image.asset(
+                'assets/emptybox.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+            Text('No data',style: styleTileIcon,)
+          ],))) : Expanded(
             child: GridView.builder(
               scrollDirection: Axis.vertical,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

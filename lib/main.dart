@@ -1,11 +1,14 @@
 import 'package:animevn/bloc/storage/storage_bloc.dart';
 import 'package:animevn/screen/splash_screen.dart';
+import 'package:animevn/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'constant/route.dart';
 
 void main() {
+  final DateTime now = DateTime.now();
+  checkToClearCache(now);
   runApp(const MyApp());
 }
 

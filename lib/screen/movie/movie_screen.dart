@@ -35,14 +35,21 @@ class _MovieScreenState extends State<MovieScreen> {
               create: (context) =>
                   MovieBloc()..add(LoadMovieByUrl(widget.linkMovie))),
         ],
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            actions: [
-              BlocBuilder<MovieBloc, MovieState>(
-                builder: (context, movieState) {
-                  if (movieState is MovieLoaded) {
-                    return BlocBuilder<StorageBloc, StorageState>(
+        child: BlocBuilder<MovieBloc, MovieState>(builder: (context, state) {
+          if (state is MovieLoading) {
+            return Loader();
+          } else if (state is MovieError) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else if (state is MovieLoaded) {
+            movie = state.movie;
+            return Scaffold(
+                backgroundColor: Colors.white,
+                appBar: AppBar(
+                  title: Text(movie.name, style: styleTileAppbar,),
+                  actions: [
+                    BlocBuilder<StorageBloc, StorageState>(
                       builder: (context, storageState) {
                         isFavourite =
                             storageState.items[widget.linkMovie]?.favourite ??
@@ -52,12 +59,12 @@ class _MovieScreenState extends State<MovieScreen> {
                           onTap: () {
                             context.read<StorageBloc>().add(
                                   AddToStorage(
-                                    name: movieState.movie.name,
+                                    name: movie.name,
                                     slug: widget.linkMovie,
-                                    originName: movieState.movie.originName,
-                                    posterUrl: movieState.movie.posterUrl,
-                                    thumbUrl: movieState.movie.thumbUrl,
-                                    year: movieState.movie.year,
+                                    originName: movie.originName,
+                                    posterUrl: movie.posterUrl,
+                                    thumbUrl: movie.thumbUrl,
+                                    year: movie.year,
                                   ),
                                 );
 
@@ -74,24 +81,10 @@ class _MovieScreenState extends State<MovieScreen> {
                           ),
                         );
                       },
-                    );
-                  }
-                  return Container(); // Nếu chưa có movieState
-                },
-              ),
-            ],
-          ),
-          body: BlocBuilder<MovieBloc, MovieState>(
-            builder: (context, state) {
-              if (state is MovieLoading) {
-                return Loader();
-              } else if (state is MovieError) {
-                return Center(
-                  child: Text(state.message),
-                );
-              } else if (state is MovieLoaded) {
-                movie = state.movie;
-                return SingleChildScrollView(
+                    )
+                  ],
+                ),
+                body: SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -180,12 +173,15 @@ class _MovieScreenState extends State<MovieScreen> {
                             Row(
                               children: [
                                 Text('Thể loại: '),
-                                Text(
-                                  state.movie.categories.isNotEmpty
-                                      ? state.movie.categories
-                                          .map((category) => category.name)
-                                          .join(', ')
-                                      : 'Không có dữ liệu',
+                                Expanded(
+                                  child: Text(
+                                    state.movie.categories.isNotEmpty
+                                        ? state.movie.categories
+                                            .map((category) => category.name)
+                                            .join(', ')
+                                        : 'Không có dữ liệu',
+                                    softWrap: true,
+                                  ),
                                 )
                               ],
                             ),
@@ -220,11 +216,9 @@ class _MovieScreenState extends State<MovieScreen> {
                       ),
                     ],
                   ),
-                );
-              }
-              return Container();
-            },
-          ),
-        ));
+                ));
+          }
+          return Container();
+        }));
   }
 }
