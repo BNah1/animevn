@@ -1,4 +1,5 @@
 import 'package:animevn/constant/const.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -31,10 +32,12 @@ class MovieTileHomepage extends StatelessWidget {
               style: styleTileItem,
             ),
           ),
-          child: Image(
-            fit: BoxFit.fill,
-            image: NetworkImage(posterUrl),
-          )),
+          child: CachedNetworkImage(imageUrl: posterUrl,
+            progressIndicatorBuilder: (context, url, progress) => Center(
+              child: CircularProgressIndicator(
+                value: progress.progress,
+              ),
+            ),)),
     );
   }
 }

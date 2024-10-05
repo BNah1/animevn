@@ -1,5 +1,6 @@
 import 'package:animevn/constant/const.dart';
 import 'package:animevn/model/apirespone.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 class MovieTileSearch extends StatelessWidget {
@@ -18,10 +19,7 @@ class MovieTileSearch extends StatelessWidget {
           Container(
               height: 150,
               width: 100,
-              child: Image.network(
-                'https://phimimg.com//${data.posterUrl}',
-                fit: BoxFit.cover,
-              )),
+              child: CachedNetworkImage(imageUrl: 'https://phimimg.com//${data.posterUrl}')),
           SizedBox(width: 10,),
           Expanded(
             child: Column(
