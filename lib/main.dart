@@ -1,4 +1,3 @@
-import 'package:animevn/bloc/movie/movie_bloc.dart';
 import 'package:animevn/bloc/storage/storage_bloc.dart';
 import 'package:animevn/screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => StorageBloc()),
-          BlocProvider(create: (context) => MovieBloc())
         ],
         child: MaterialApp(
           onGenerateRoute: Routes.generateRoute,

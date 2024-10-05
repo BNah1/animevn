@@ -19,3 +19,8 @@ class LoadApiResponseWithPage extends MovieEvent{
   LoadApiResponseWithPage(this.url);
 }
 
+class UploadCurrentPage extends MovieEvent{
+  final int page;
+  UploadCurrentPage(this.page);
+}
+

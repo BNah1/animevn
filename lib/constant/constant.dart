@@ -17,19 +17,19 @@ class Constants {
       ),
       Tab(
         icon: Icon(
-          index == 1 ? Icons.group : Icons.group_outlined,
+          index == 1 ? Icons.new_label : Icons.new_label_outlined,
           color: Colors.blue,
         ),
       ),
       Tab(
         icon: Icon(
-          index == 2 ? Icons.smart_display : Icons.smart_display_outlined,
+          index == 2 ? Icons.favorite : Icons.favorite_border,
           color: Colors.blue,
         ),
       ),
       Tab(
         icon: Icon(
-          index == 3 ? Icons.account_circle : Icons.account_circle_outlined,
+          index == 3 ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
           color: Colors.blue,
         ),
       ),

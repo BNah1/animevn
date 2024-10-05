@@ -13,6 +13,19 @@ import '../../model/movie.dart';
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   MovieBloc() : super(MovieInitial()) {
 
+    on<UploadCurrentPage>((event, emit) async {
+      emit(MovieLoading());
+      String link = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=${event.page}';
+      try{
+        List<ApiResponse> api = await fetchApiWithPage(link);
+        emit(ApiLoaded(api));
+        print('da cap nhap');
+      }catch(e){
+        emit(MovieError('Failed to load : ${e.toString()}'));
+      }
+    });
+
+
 
    on<LoadApiResponse>((event, emit) async {
      emit(MovieLoading());

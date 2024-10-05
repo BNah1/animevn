@@ -5,7 +5,7 @@ import 'package:animevn/bloc/movie/movie_state.dart';
 import 'package:animevn/bloc/storage/storage_bloc.dart';
 import 'package:animevn/bloc/storage/storage_event.dart';
 import 'package:animevn/screen/videoplayer/videoplayer_screen.dart';
-import 'package:animevn/widget/text_button.dart';
+import 'package:animevn/widget/icon_text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/storage/storage_state.dart';

@@ -29,7 +29,6 @@ class IconTextButton extends StatelessWidget {
         ),
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16), // Padding cho nút
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

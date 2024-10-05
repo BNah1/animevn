@@ -1,9 +1,9 @@
 import 'package:animevn/screen/search_screen.dart';
+import 'package:animevn/screen/all_page_movies_screen.dart';
 import 'package:animevn/widget/list_poster.dart';
 import 'package:flutter/material.dart';
 import '../constant/app_color.dart';
 import '../constant/constant.dart';
-import 'movie/widget/list_movie_gridview.dart';
 import 'movie/widget/list_movie_gridview_json.dart';
 import 'movie/widget/list_movie_row.dart';
 
@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           title: _buildFacebookText(),
           actions: [
             _buildSearchWidget(),
-            _buildMessengerWidget(),
           ],
           bottom: TabBar(
             tabs: Constants.getHomeScreenTabs(_tabController.index),
@@ -66,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ListMovieRow(title: 'Phim lẻ', link: 'https://phimapi.com/v1/api/the-loai/hanh-dong', isPage: false,),
                   ListMovieRow(title: 'Phim bộ', link: 'https://phimapi.com/v1/api/danh-sach/phim-bo', isPage: false,),
                 ])),
-            ListMovieGridView(),
+            AllPageMoviesScreen(),
             ListMovieGridViewJson(title: 'Yeu thich',isFavourite: true,),
             ListMovieGridViewJson(title: 'Dang theo doi ',isFavourite: false,),
           ],
@@ -89,10 +88,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Navigator.pushNamed(context, SearchScreen.routeName);
         },
         child: Icon(
-          Icons.search,
+          Icons.search,size: 30,
         ),
       );
 
-  Widget _buildMessengerWidget() =>
-      InkWell(onTap: () {}, child: Icon(Icons.invert_colors_on_sharp));
 }
