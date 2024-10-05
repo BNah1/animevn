@@ -25,7 +25,7 @@ final styleTextInButton = TextStyle(
 
 final styleTile = TextStyle(
   color: Colors.black,
-  fontSize: 17,
+  fontSize: 20,
   fontWeight: FontWeight.bold,
 );
 

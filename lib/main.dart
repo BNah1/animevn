@@ -1,4 +1,5 @@
 import 'package:animevn/bloc/storage/storage_bloc.dart';
+import 'package:animevn/database/storage_database.dart';
 import 'package:animevn/screen/splash_screen.dart';
 import 'package:animevn/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'constant/route.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final DateTime now = DateTime.now();
   checkToClearCache(now);
+  await StorageDatabase.instance.init();
   runApp(const MyApp());
 }
 
@@ -20,7 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => StorageBloc()),
+          BlocProvider(create: (context) => StorageBloc(),
+          ),
         ],
         child: MaterialApp(
           onGenerateRoute: Routes.generateRoute,

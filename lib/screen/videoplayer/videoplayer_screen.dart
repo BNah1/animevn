@@ -18,6 +18,7 @@ class VideoplayerScreen extends StatefulWidget {
 
 class _VideoplayerScreenState extends State<VideoplayerScreen> {
   late String link;
+  late int currentChap;
 
   @override
   void initState() {
@@ -48,14 +49,16 @@ class _VideoplayerScreenState extends State<VideoplayerScreen> {
                 child: NetworkVideoView(videoUrl: link, slug: widget.movie.slug,)),
             SizedBox(height: 10,),
             Text('Chon Sever :'),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration( borderRadius: BorderRadius.circular(5),color: Colors.amber),child: Center(
-              child: Text(
-                widget.movie.episodes.serverName,
-                style: TextStyle(fontSize: 16),
-              ),
-            ),),
+            Padding(
+              padding: EdgeInsets.only(right: 200),
+              child: Container(
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(5),color: Colors.amber),child: Center(
+                child: Text(
+                  widget.movie.episodes.serverName,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),),
+            ),
             SizedBox(height: 10,),
             Text('Danh sach tap :'),
             ListEpisode(inputdata: widget.movie.episodes.serverData, onLinkSelected: _updateLink),

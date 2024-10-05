@@ -31,6 +31,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  Future<void> _refresh() async {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -55,19 +59,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: [
-            SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(children: [
-                  ListPoster(),
-                  ListMovieRow(title: 'Anime', link: 'https://phimapi.com/v1/api/danh-sach/hoat-hinh', isPage: false,),
-                  ListMovieRow(title: 'TV-Show', link: 'https://phimapi.com/v1/api/danh-sach/tv-shows', isPage: false,),
-                  ListMovieRow(title: 'Phim mới cập nhập', link: 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=2', isPage: true,),
-                  ListMovieRow(title: 'Phim lẻ', link: 'https://phimapi.com/v1/api/the-loai/hanh-dong', isPage: false,),
-                  ListMovieRow(title: 'Phim bộ', link: 'https://phimapi.com/v1/api/danh-sach/phim-bo', isPage: false,),
-                ])),
+            RefreshIndicator(onRefresh: _refresh, child: _contentMovie()),
             AllPageMoviesScreen(),
-            ListMovieGridViewJson(title: 'Yeu thich',isFavourite: true,),
-            ListMovieGridViewJson(title: 'Dang theo doi ',isFavourite: false,),
+            const ListMovieGridViewJson(
+              title: 'Phim yêu thích',
+              isFavourite: true,
+            ),
+            const ListMovieGridViewJson(
+              title: 'Đang theo dõi ',
+              isFavourite: false,
+            ),
           ],
         ),
       ),
@@ -87,9 +88,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         onTap: () {
           Navigator.pushNamed(context, SearchScreen.routeName);
         },
-        child: Icon(
-          Icons.search,size: 30,
+        child: const Icon(
+          Icons.search,
+          size: 30,
         ),
       );
 
+  Widget _contentMovie() => SingleChildScrollView(
+        key: UniqueKey(),
+        scrollDirection: Axis.vertical,
+        physics: AlwaysScrollableScrollPhysics(),
+        child: const Column(children: [
+          ListPoster(),
+          ListMovieRow(
+            title: 'Anime',
+            link: 'https://phimapi.com/v1/api/danh-sach/hoat-hinh',
+            isPage: false,
+          ),
+          ListMovieRow(
+            title: 'TV-Show',
+            link: 'https://phimapi.com/v1/api/danh-sach/tv-shows',
+            isPage: false,
+          ),
+          ListMovieRow(
+            title: 'Phim mới cập nhập',
+            link: 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=2',
+            isPage: true,
+          ),
+          ListMovieRow(
+            title: 'Phim lẻ',
+            link: 'https://phimapi.com/v1/api/the-loai/hanh-dong',
+            isPage: false,
+          ),
+          ListMovieRow(
+            title: 'Phim bộ',
+            link: 'https://phimapi.com/v1/api/danh-sach/phim-bo',
+            isPage: false,
+          ),
+        ]),
+      );
 }

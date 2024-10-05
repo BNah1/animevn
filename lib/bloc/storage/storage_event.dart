@@ -23,7 +23,7 @@ class AddToStorage extends StorageEvent {
   });
 }
 
-class LoadJson extends StorageEvent{}
+class LoadDatabase extends StorageEvent{}
 
 class FavouriteApiStatus extends StorageEvent {
  final String slug;
