@@ -13,15 +13,6 @@ import '../../model/movie.dart';
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   MovieBloc() : super(MovieInitial()) {
 
-   on<LoadApi>((event, emit) async {
-     emit(MovieLoading());
-     try{
-       List<ApiResponse> apies = await fetchApi('https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1');
-       emit(ApiLoaded(apies));
-     } catch(e) {
-       emit(MovieError('Failed to load : ${e.toString()}'));
-     }
-   });
 
    on<LoadApiResponse>((event, emit) async {
      emit(MovieLoading());
@@ -121,17 +112,15 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       final response = await http.get(Uri.parse(url));
       final jsonData = jsonDecode(response.body);
 
-      // Lấy thông tin phim
       Movie movie = Movie.fromMap(jsonData['movie'] as Map<String, dynamic>);
 
-      // Kiểm tra sự tồn tại của trường episodes
+
       if (jsonData['episodes'] != null && jsonData['episodes'] is List) {
         List<EpisodeData> episodeDataList = (jsonData['episodes'] as List<dynamic>)
             .expand((e) => (e['server_data'] as List<dynamic> ))
             .map((e) => EpisodeData.fromMap(e as Map<String, dynamic>))
             .toList();
 
-        // Tạo đối tượng Episode và gán vào movie
         Episode episode = Episode(
           serverName: jsonData['episodes'][0]['server_name'] ?? '',
           serverData: episodeDataList,
@@ -139,7 +128,6 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         movie.episodes = episode;
         movie.episodes.serverData = episodeDataList;
       } else {
-        // Nếu không có episodes, gán giá trị mặc định
         movie.episodes = Episode(serverName: '', serverData: []);
       }
 

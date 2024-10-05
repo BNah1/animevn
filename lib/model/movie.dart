@@ -13,6 +13,7 @@ class Movie {
   final String posterUrl;
   final String thumbUrl;
   final String time;
+  final String slug;
   final String episodeCurrent;
   final String episodeTotal;
   final String quality;
@@ -33,6 +34,7 @@ class Movie {
     required this.posterUrl,
     required this.thumbUrl,
     required this.time,
+    required this.slug,
     required this.episodeCurrent,
     required this.episodeTotal,
     required this.quality,
@@ -56,6 +58,7 @@ class Movie {
       'poster_url': posterUrl,
       'thumb_url': thumbUrl,
       'time': time,
+      'slug': slug,
       'episode_current': episodeCurrent,
       'episode_total': episodeTotal,
       'quality': quality,
@@ -80,6 +83,7 @@ class Movie {
       posterUrl: map['poster_url'] ?? '',
       thumbUrl: map['thumb_url'] ?? '',
       time: map['time'] ?? '',
+      slug: map['slug'] ?? '',
       episodeCurrent: map['episode_current'] ?? '',
       episodeTotal: map['episode_total'] ?? '',
       quality: map['quality'] ?? '',

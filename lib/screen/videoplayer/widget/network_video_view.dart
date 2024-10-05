@@ -5,8 +5,8 @@ import 'package:video_player/video_player.dart';
 import 'fullscreen_videoplayer.dart';
 
 class NetworkVideoView extends StatefulWidget {
-  const NetworkVideoView({super.key, required this.videoUrl});
-
+  const NetworkVideoView({super.key, required this.videoUrl, required this.slug});
+  final String slug;
   final String videoUrl;
 
   @override

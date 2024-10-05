@@ -16,7 +16,7 @@ class ListMovieGridView extends StatefulWidget {
 }
 
 class _ListMovieGridViewState extends State<ListMovieGridView> {
-  String link = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1';
+  String link = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=2';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,7 +1,5 @@
 abstract class MovieEvent {}
 
-class LoadApi extends MovieEvent{}
-
 class LoadMovieByUrl extends MovieEvent{
   final String url;
   LoadMovieByUrl(this.url);

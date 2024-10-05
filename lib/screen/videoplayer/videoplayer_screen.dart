@@ -45,7 +45,7 @@ class _VideoplayerScreenState extends State<VideoplayerScreen> {
             SizedBox(height: 10,),
             Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                child: NetworkVideoView(videoUrl: link)),
+                child: NetworkVideoView(videoUrl: link, slug: widget.movie.slug,)),
             SizedBox(height: 10,),
             Text('Chon Sever :'),
             Container(

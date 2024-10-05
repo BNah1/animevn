@@ -46,6 +46,8 @@ dependencies:
   # font
   font_awesome_flutter: ^10.0.0
   http: ^1.2.1
+  #luu va ghi file json
+  path_provider: ^2.1.4
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,26 @@
+[
+  {
+    "favourite": true,
+    "seen": false,
+    "api": {
+      "slug": "khi-anh-chay-ve-phia-em",
+      "name": "Khi anh chay ve phia em",
+      "poster_url": "https://images.unsplash.com/photo-1580256079206-46a04a632758?q=80&w=4000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "origin_name": " chay",
+      "thumb_url": "",
+      "year": 2023
+    }
+  },
+  {
+    "favourite": true,
+    "seen": false,
+    "api": {
+      "slug": "tad-truy-tim-kho-bau-3-loi-nguyen-xac-uop",
+      "name": "Tad, the Lost Explorer and the Emerald Tablet",
+      "poster_url": "https://phimimg.com//upload\\/vod\\/20241001-1\\/28ba93175ac4f1ddf1c46cf50e5188c4.jpg",
+      "origin_name": " chay",
+      "thumb_url": "",
+      "year": 2023
+    }
+  }
+]
