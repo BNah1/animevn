@@ -5,9 +5,15 @@ import 'package:video_player/video_player.dart';
 import 'fullscreen_videoplayer.dart';
 
 class NetworkVideoView extends StatefulWidget {
-  const NetworkVideoView({super.key, required this.videoUrl, required this.slug});
+  NetworkVideoView(
+      {super.key,
+      required this.videoUrl,
+      required this.slug,
+      this.duration = Duration.zero});
+
   final String slug;
   final String videoUrl;
+  Duration duration;
 
   @override
   State<NetworkVideoView> createState() => _VideoViewState();
@@ -22,12 +28,17 @@ class _VideoViewState extends State<NetworkVideoView> {
     if (_videoPlayerController != null) {
       return;
     }
+
     _videoPlayerController = VideoPlayerController.network(widget.videoUrl)
       ..initialize().then((_) {
         setState(() {});
       }).catchError((error) {
         print("Lỗi khi tải video: $error");
       });
+  }
+
+  void getDuration(Duration time) {
+    widget.duration = time;
   }
 
   @override
@@ -44,6 +55,13 @@ class _VideoViewState extends State<NetworkVideoView> {
       _videoPlayerController?.dispose();
       _videoPlayerController = null;
       initializeVideo();
+    }
+
+    if (oldWidget.duration != widget.duration) {
+      _videoPlayerController?.dispose();
+      _videoPlayerController = null;
+      _videoPlayerController!.seekTo(widget.duration);
+      _videoPlayerController!.play();
     }
   }
 
@@ -83,7 +101,9 @@ class _VideoViewState extends State<NetworkVideoView> {
                   valueListenable: _videoPlayerController!,
                   builder: (context, value, child) {
                     final currentPosition = formatDuration(value.position);
-                    final totalDuration = _videoPlayerController!.value.duration.inSeconds > 0
+                    final totalDuration = _videoPlayerController!
+                                .value.duration.inSeconds >
+                            0
                         ? formatDuration(_videoPlayerController!.value.duration)
                         : '00:00';
 
@@ -93,7 +113,9 @@ class _VideoViewState extends State<NetworkVideoView> {
                           onTap: () {
                             setState(() {
                               isPlaying = !isPlaying;
-                              isPlaying ? _videoPlayerController!.play() : _videoPlayerController!.pause();
+                              isPlaying
+                                  ? _videoPlayerController!.play()
+                                  : _videoPlayerController!.pause();
                             });
                           },
                           child: Center(
@@ -129,7 +151,6 @@ class _VideoViewState extends State<NetworkVideoView> {
   }
 
   void _goToFullScreen(BuildContext context) {
-    // Dừng video trước khi chuyển sang chế độ toàn màn hình
     _videoPlayerController?.pause();
 
     Navigator.push(
@@ -137,15 +158,15 @@ class _VideoViewState extends State<NetworkVideoView> {
       MaterialPageRoute(
         builder: (context) => FullScreenVideoPlayer(
           videoUrl: widget.videoUrl,
-          currentPosition: _videoPlayerController?.value.position ?? Duration.zero, // Sử dụng Duration.zero nếu null
+          currentPosition: _videoPlayerController?.value.position ??
+              Duration.zero,
         ),
       ),
-    ).then((_) {
-      // Khi quay lại, tiếp tục video với vị trí đã lưu
+    ).then((newPosition) {
       setState(() {
-        // Cập nhật trạng thái video
-        _videoPlayerController?.seekTo(_videoPlayerController?.value.position ?? Duration.zero); // Sử dụng Duration.zero nếu null
-        _videoPlayerController?.play(); // Phát lại video
+        isPlaying = true;
+        _videoPlayerController?.seekTo(newPosition);
+        _videoPlayerController?.play();
       });
     });
   }

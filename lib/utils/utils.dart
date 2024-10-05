@@ -25,7 +25,7 @@ Future<List<Poster>> getPoster() async {
 }
 
 void checkToClearCache(DateTime time) {
-  Timer.periodic(Duration(minutes: 3), (timer){
+  Timer.periodic(Duration(minutes: 5), (timer){
     final now = DateTime.now();
     DateTime timeCheck = time.add(Duration(minutes: 10));
     if(now.isAfter(timeCheck)){

@@ -26,4 +26,14 @@ class ApiStatus {
       'seen': seen,
     };
   }
+
+  Map<String, Object?> toMap() {
+    return {
+      'api': api.toMap(),
+      'favourite': favourite,
+      'seen': seen,
+    };
+  }
+
+
 }

@@ -46,7 +46,7 @@ class _ListMovieRowState extends State<ListMovieRow> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
+                          horizontal: 10, vertical: 8),
                       child: Text(
                         widget.title,
                         style: styleTile,

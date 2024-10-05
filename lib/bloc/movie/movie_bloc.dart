@@ -29,6 +29,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
 
 
+
    on<LoadApiResponse>((event, emit) async {
      emit(MovieLoading());
      try{
