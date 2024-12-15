@@ -34,9 +34,15 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
             children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
-              child: Image.asset(
-                'assets/emptybox.png',
-                fit: BoxFit.fill,
+              child: Center(
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  child: Image.asset(
+                    'assets/emptybox.png',
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
             ),
             Text('No data',style: styleTileIcon,)

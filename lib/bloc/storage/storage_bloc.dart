@@ -58,9 +58,6 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
 
     on<FavouriteApiStatus>((event, emit){
       final items = Map<String, ApiStatus>.from(state.items);
-      print('test favourte');
-      print(items);
-      print('xxxxx');
       if(items.containsKey(event.slug) && items[event.slug]?.favourite == false){
         ApiStatus api = ApiStatus(
             api: items[event.slug]!.api,
@@ -69,7 +66,10 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
         items[event.slug] = api;
         _storageTable.updateApiFavourite(api.api.slug);
         showToastMessage(text: 'Đã thêm  ${event.slug} vào yêu thích');
-      } else if (items.containsKey(event.slug) && items[event.slug]?.favourite == true){
+      }
+
+      else if (items.containsKey(event.slug) && items[event.slug]?.favourite == true){
+
         if(items[event.slug]?.seen == true){
           ApiStatus api = ApiStatus(
               api: items[event.slug]!.api,
@@ -77,12 +77,16 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
               favourite: false);
           items[event.slug] = api;
           _storageTable.updateApiFavourite(api.api.slug);
-        } else {
-          items.remove(event.slug);
-          _storageTable.deleteTodo(event.slug);
           showToastMessage(text: 'Đã xoá ${event.slug} ra khỏi danh sách');
         }
+
+        else {
+          items.remove(event.slug);
+          _storageTable.deleteMovieDatabase(event.slug);
+          showToastMessage(text: 'Đã xoá ${event.slug} ra khỏi database');
+        }
       }
+
       emit(StorageState(items));
     });
 
@@ -95,7 +99,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
             seen: true
         );
           items[event.slug] = api;
-          _storageTable.updateApiSeen(api);
+          _storageTable.updateApiSeen(api.api.slug);
       }
       emit(StorageState(items));
     });
@@ -111,7 +115,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       } else {
         items.remove(event.slug);
         print(event.slug);
-        _storageTable.deleteTodo(event.slug);
+        _storageTable.deleteMovieDatabase(event.slug);
       }
       emit(StorageState(items));
     });

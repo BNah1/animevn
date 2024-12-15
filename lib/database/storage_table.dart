@@ -35,35 +35,33 @@ class StorageTable {
   Future<void> updateApiFavourite(String slug) async {
     final db = await StorageDatabase.instance.database;
     // Đảo ngược
-    final result = await db?.rawUpdate(
+    await db?.rawUpdate(
       '''
     UPDATE $TABLE_NAME
     SET favourite = CASE WHEN favourite = 1 THEN 0 ELSE 1 END
     WHERE slug = ?
-    ''',
+      ''',
       [slug],
     );
   }
 
-  Future<void> updateApiSeen(ApiStatus apiStatus) async {
+  Future<void> updateApiSeen(String slug) async {
     final db = await StorageDatabase.instance.database;
     // Đảo ngược
-    bool newSeen = !(apiStatus.seen);  // Đảo ngược giá trị seen
-    // Cập nhật lại giá trị vào cơ sở dữ liệu
-    await db?.update(
-      TABLE_NAME,
-      {
-        'seen': newSeen ? 1 : 0,
-      },
-      where: 'slug = ?',
-      whereArgs: [apiStatus.api.slug],
+    await db?.rawUpdate(
+      '''
+    UPDATE $TABLE_NAME
+    SET seen = CASE WHEN seen = 1 THEN 0 ELSE 1 END
+    WHERE slug = ?
+      ''',
+      [slug],
     );
   }
 
 
 
 
-  Future<void> deleteTodo(String slug) async {
+  Future<void> deleteMovieDatabase(String slug) async {
     final db = await StorageDatabase.instance.database;
     await db?.delete(TABLE_NAME, where: 'slug = ?', whereArgs: [slug]);
   }
