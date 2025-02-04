@@ -11,7 +11,7 @@ class MovieTileSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,7 +20,7 @@ class MovieTileSearch extends StatelessWidget {
               height: 150,
               width: 100,
               child: CachedNetworkImage(imageUrl: 'https://phimimg.com//${data.posterUrl}')),
-          SizedBox(width: 10,),
+          const SizedBox(width: 10,),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

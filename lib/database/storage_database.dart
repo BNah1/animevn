@@ -22,7 +22,14 @@ class StorageDatabase {
   static const migrationScripts = [];
 
   Future<void> init() async {
-    _database = await openDatabase(join(await getDatabasesPath(), DB_NAME),
+
+    // tao path
+    var databasePath = await getDatabasesPath();
+    String path = join(databasePath,DB_NAME);
+
+    //
+    _database = await openDatabase(
+        path,
         onCreate: (db, version) async {
       for (var script in initScripts) {
         await db.execute(script);
@@ -33,4 +40,5 @@ class StorageDatabase {
       }
     },version: DB_VERSION);
   }
+
 }

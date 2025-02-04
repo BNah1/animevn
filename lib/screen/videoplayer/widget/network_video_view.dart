@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
 import 'fullscreen_videoplayer.dart';
 
 class NetworkVideoView extends StatefulWidget {
-  NetworkVideoView(
+  const NetworkVideoView(
       {super.key,
       required this.videoUrl,
       required this.slug,
@@ -13,7 +11,7 @@ class NetworkVideoView extends StatefulWidget {
 
   final String slug;
   final String videoUrl;
-  Duration duration;
+  final Duration duration;
 
   @override
   State<NetworkVideoView> createState() => _VideoViewState();
@@ -29,16 +27,12 @@ class _VideoViewState extends State<NetworkVideoView> {
       return;
     }
 
-    _videoPlayerController = VideoPlayerController.network(widget.videoUrl)
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
         setState(() {});
       }).catchError((error) {
         print("Lỗi khi tải video: $error");
       });
-  }
-
-  void getDuration(Duration time) {
-    widget.duration = time;
   }
 
   @override
@@ -91,7 +85,7 @@ class _VideoViewState extends State<NetworkVideoView> {
                 VideoProgressIndicator(
                   _videoPlayerController!,
                   allowScrubbing: true,
-                  colors: VideoProgressColors(
+                  colors: const VideoProgressColors(
                     playedColor: Colors.red,
                     bufferedColor: Colors.grey,
                     backgroundColor: Colors.black54,
@@ -128,12 +122,12 @@ class _VideoViewState extends State<NetworkVideoView> {
                         ),
                         Text(
                           '$currentPosition / $totalDuration',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         // Nút phóng to
                         IconButton(
-                          icon: Icon(Icons.fullscreen, color: Colors.white),
+                          icon: const Icon(Icons.fullscreen, color: Colors.white),
                           onPressed: () {
                             _goToFullScreen(context);
                           },
@@ -152,22 +146,31 @@ class _VideoViewState extends State<NetworkVideoView> {
 
   void _goToFullScreen(BuildContext context) {
     _videoPlayerController?.pause();
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => FullScreenVideoPlayer(
           videoUrl: widget.videoUrl,
-          currentPosition: _videoPlayerController?.value.position ??
-              Duration.zero,
+          currentPosition:
+              _videoPlayerController?.value.position ?? Duration.zero,
+          isPlaying: isPlaying,
         ),
       ),
-    ).then((newPosition) {
-      setState(() {
-        isPlaying = true;
-        _videoPlayerController?.seekTo(newPosition);
-        _videoPlayerController?.play();
-      });
+    ).then((result) {
+      if (result != null) {
+        Duration newPosition = result['position'];
+        bool isPlaying = result['isPlaying'];
+
+        setState(() {
+          _videoPlayerController?.seekTo(newPosition);
+          if (isPlaying) {
+            _videoPlayerController?.play();
+          } else {
+            _videoPlayerController?.pause();
+          }
+        });
+      }
+
     });
   }
 
@@ -176,6 +179,6 @@ class _VideoViewState extends State<NetworkVideoView> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigitMinutes}:${twoDigitSeconds}";
+    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 }

@@ -37,7 +37,7 @@ class Constants {
       id: '01',
       name: 'MOVIE1',
       image:
-          'https:\/\/phimimg.com\/upload\/vod\/20230929-1\/a6110983f8de490e116383020adc4662.jpg',
+          'https://phimimg.com\/upload\/vod\/20230929-1//a6110983f8de490e116383020adc4662.jpg',
     ),
     Poster(
       id: '01',

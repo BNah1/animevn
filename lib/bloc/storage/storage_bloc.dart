@@ -90,6 +90,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
       emit(StorageState(items));
     });
 
+
     on<SeenApiStatus>((event, emit){
       final items = Map<String, ApiStatus>.from(state.items);
       if(items.containsKey(event.slug)){

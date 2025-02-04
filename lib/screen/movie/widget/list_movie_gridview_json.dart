@@ -27,15 +27,15 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
       return Column(
         children: [
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(widget.title,style: styleTile,)),
           items.isEmpty ? Expanded(child: Center(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Center(
-                child: Container(
+                child: SizedBox(
                   height: 200,
                   width: 200,
                   child: Image.asset(
@@ -45,7 +45,7 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
                 ),
               ),
             ),
-            Text('No data',style: styleTileIcon,)
+            const Text('No data',style: styleTileIcon,)
           ],))) : Expanded(
             child: GridView.builder(
               scrollDirection: Axis.vertical,
@@ -72,7 +72,7 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
                           height: 400,
                           widght: 300,
                         ),
-                        widget.isFavourite ? SizedBox.shrink() : Positioned(
+                        widget.isFavourite ? const SizedBox.shrink() : Positioned(
                           top: 5,
                           right: 5,
                           child: InkWell(
@@ -81,12 +81,12 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
                               showToastMessage(text: 'Xoa thanh cong');
                             },
                             child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'X',
                                 style: TextStyle(
                                   color: Colors.white,

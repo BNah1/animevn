@@ -1,5 +1,4 @@
 import 'package:animevn/model/episode.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListEpisode extends StatefulWidget {
@@ -26,7 +25,7 @@ class _ListEpisodeState extends State<ListEpisode> {
     return GridView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
         crossAxisSpacing: 1,
         mainAxisSpacing: 2,
@@ -41,7 +40,7 @@ class _ListEpisodeState extends State<ListEpisode> {
               currentSelected = widget.inputdata[index].slug;
             },
             child: Padding(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               child: Container(
                 height: 200,
                 decoration: BoxDecoration(

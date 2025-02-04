@@ -10,10 +10,12 @@ class FullScreenVideoPlayer extends StatefulWidget {
     Key? key,
     required this.videoUrl,
     required this.currentPosition,
+    required this.isPlaying
   }) : super(key: key);
 
   final String videoUrl;
   final Duration currentPosition;
+  final bool isPlaying;
 
   @override
   _FullScreenVideoPlayerState createState() => _FullScreenVideoPlayerState();
@@ -23,19 +25,27 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
   late VideoPlayerController _videoPlayerController;
   bool _isFabVisible = true; // Biến điều khiển sự hiển thị của FloatingActionButton
   Timer? _hideFabTimer; // Biến Timer để ẩn FAB
-  bool isPlaying = true;
+  late bool isPlaying;
 
   @override
   void initState() {
+    isPlaying = widget.isPlaying;
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
 
-    _videoPlayerController = VideoPlayerController.network(widget.videoUrl)
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
         setState(() {
+
           _videoPlayerController.seekTo(widget.currentPosition);
-          _videoPlayerController.play(); // Bắt đầu phát video
-          _startHideFabTimer(); // Bắt đầu timer để ẩn FAB
+
+          if (isPlaying) {
+            _videoPlayerController.play();
+          } else {
+            _videoPlayerController.pause();
+          }
+
+          _startHideFabTimer(); // Bắt đầu timer fab
         });
       });
   }
@@ -51,7 +61,7 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
 
   void _startHideFabTimer() {
     _hideFabTimer?.cancel();
-    _hideFabTimer = Timer(Duration(seconds: 3), () {
+    _hideFabTimer = Timer(const Duration(seconds: 3), () {
       setState(() {
         _isFabVisible = false; // Ẩn FAB
       });
@@ -62,7 +72,7 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
     setState(() {
       _isFabVisible = true; // Hiển thị lại FAB
     });
-    _startHideFabTimer(); // Bắt đầu lại timer
+    _startHideFabTimer(); // Bắt đầu timer fab
   }
 
   @override
@@ -86,7 +96,7 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
                     VideoProgressIndicator(
                       _videoPlayerController,
                       allowScrubbing: true,
-                      colors: VideoProgressColors(
+                      colors: const VideoProgressColors(
                         playedColor: Colors.red,
                         bufferedColor: Colors.grey,
                         backgroundColor: Colors.black54,
@@ -123,16 +133,19 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
                             ),
                             Text(
                               '$currentPosition / $totalDuration',
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             // Nút phóng to
                             IconButton(
-                              icon: Icon(Icons.fullscreen, color: Colors.white),
-                              onPressed: () {
+                              icon: const Icon(Icons.fullscreen, color: Colors.white),
+                              onPressed: () async {
                                 _videoPlayerController.pause();
                                 _videoPlayerController.dispose();
-                                Navigator.pop(context, _videoPlayerController.value.position);
+                                Navigator.pop(context, {
+                                  'position': _videoPlayerController.value.position,
+                                  'isPlaying': isPlaying,
+                                });
                               },
                             ),
                           ],
@@ -141,7 +154,7 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
                     ),
                   ],
                 ),
-              ): SizedBox(),
+              ): const SizedBox(),
             ]
           ),
         ),

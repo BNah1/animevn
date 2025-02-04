@@ -5,31 +5,31 @@ const dColorIconButton = Colors.blue;
 const sizeIconButton = 24.0;
 const dColorFooterImage = Colors.white60;
 
-final styleTileItem = TextStyle(
+const styleTileItem = TextStyle(
   color: Colors.white,
   fontSize: 15,
   fontWeight: FontWeight.bold,
 );
 
-final styleTileAppbar = TextStyle(
+const styleTileAppbar = TextStyle(
   color: Colors.black,
   fontSize: 25,
   fontWeight: FontWeight.bold,
 );
 
-final styleTextInButton = TextStyle(
+const styleTextInButton = TextStyle(
   color: Colors.black,
   fontSize: 17,
   fontWeight: FontWeight.bold,
 );
 
-final styleTile = TextStyle(
+const styleTile = TextStyle(
   color: Colors.black,
   fontSize: 20,
   fontWeight: FontWeight.bold,
 );
 
-final styleTileIcon = TextStyle(
+const styleTileIcon = TextStyle(
   color: Colors.black,
   fontSize: 15,
   fontWeight: FontWeight.bold,
