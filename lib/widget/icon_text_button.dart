@@ -10,38 +10,59 @@ class IconTextButton extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.color,
+    this.padding,
   });
 
   final IconData icon;
   final String text;
   final VoidCallback? onPressed;
   final Color? color;
+  final double? padding;
 
   @override
   Widget build(BuildContext context) {
-    return  TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: color ?? Colors.blue,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Colors.transparent),
-        ),
-      ),
-      child: Container(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FaIcon(icon, color: Colors.white, size: 14,), // Biểu tượng
-            const SizedBox(width: 8), // Khoảng cách giữa biểu tượng và văn bản
-            Text(
-              text,
-              style: styleTextInButton
+    return InkWell(
+      onTap: onPressed,
+      // style: TextButton.styleFrom(
+      //   backgroundColor: color ?? Colors.blue,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.circular(10),
+      //     side: const BorderSide(color: Colors.transparent),
+      //   ),
+      // ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: padding ?? 20),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFFFD54F), // vàng tươi nhẹ ở giữa
+                Color(0xFFFFE082), // vàng pastel
+                Color(0xFFFFF3C2), // vàng sáng kem ở góc trên
+                Color(0xFFFFF8E9), // vàng nhạt mịn ở cuối
+                Color(0xFFFFF3C2), // vàng sáng kem ở góc trên
+              ],
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FaIcon(
+                icon,
+                color: Colors.white,
               ),
-          ],
+              // Biểu tượng
+              const SizedBox(width: 8),
+              // Khoảng cách giữa biểu tượng và văn bản
+              Text(text, style: styleTextInButton),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

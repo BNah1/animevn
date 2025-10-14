@@ -46,51 +46,51 @@ class _MovieScreenState extends State<MovieScreen> {
             movie = state.movie;
             return Scaffold(
                 backgroundColor: Colors.white,
-                appBar: AppBar(
-                  title: Text(movie.name, style: styleTileAppbar,),
-                  actions: [
-                    BlocBuilder<StorageBloc, StorageState>(
-                      builder: (context, storageState) {
-                        isFavourite =
-                            storageState.items[widget.linkMovie]?.favourite ??
-                                false;
-
-                        return InkWell(
-                          onTap: () {
-                            context.read<StorageBloc>().add(
-                                  AddToStorage(
-                                    name: movie.name,
-                                    slug: widget.linkMovie,
-                                    originName: movie.originName,
-                                    posterUrl: movie.posterUrl,
-                                    thumbUrl: movie.thumbUrl,
-                                    year: movie.year,
-                                  ),
-                                );
-
-                            context
-                                .read<StorageBloc>()
-                                .add(FavouriteApiStatus(widget.linkMovie));
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Icon(
-                              Icons.favorite,
-                              color: isFavourite ? Colors.red : Colors.grey,
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
+                // appBar: AppBar(
+                //   title: Text(movie.name, style: styleTileAppbar,),
+                //   actions: [
+                //     BlocBuilder<StorageBloc, StorageState>(
+                //       builder: (context, storageState) {
+                //         isFavourite =
+                //             storageState.items[widget.linkMovie]?.favourite ??
+                //                 false;
+                //
+                //         return InkWell(
+                //           onTap: () {
+                //             context.read<StorageBloc>().add(
+                //                   AddToStorage(
+                //                     name: movie.name,
+                //                     slug: widget.linkMovie,
+                //                     originName: movie.originName,
+                //                     posterUrl: movie.posterUrl,
+                //                     thumbUrl: movie.thumbUrl,
+                //                     year: movie.year,
+                //                   ),
+                //                 );
+                //
+                //             context
+                //                 .read<StorageBloc>()
+                //                 .add(FavouriteApiStatus(widget.linkMovie));
+                //           },
+                //           child: Padding(
+                //             padding: EdgeInsets.only(right: 10),
+                //             child: Icon(
+                //               Icons.favorite,
+                //               color: isFavourite ? Colors.red : Colors.grey,
+                //             ),
+                //           ),
+                //         );
+                //       },
+                //     )
+                //   ],
+                // ),
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
                         children: [
                           Container(
-                            height: size.height * 0.51,
+                            height: size.height * 0.50,
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: NetworkImage(state.movie.posterUrl),
@@ -141,6 +141,17 @@ class _MovieScreenState extends State<MovieScreen> {
                               ),
                             ),
                           ),
+
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                              buildExitButton(),
+                              buildFavouriteButton()
+                            ]),
+                          ),
+
                         ],
                       ),
                       FadeInUp(
@@ -148,25 +159,7 @@ class _MovieScreenState extends State<MovieScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(children: [
-                            IconTextButton(
-                              icon: Icons.start,
-                              text: 'Xem ngay',
-                              onPressed: () {
-                                context.read<StorageBloc>().add(AddToStorage(
-                                    name: state.movie.name,
-                                    slug: state.movie.slug,
-                                    originName: state.movie.originName,
-                                    posterUrl: state.movie.posterUrl,
-                                    thumbUrl: state.movie.thumbUrl,
-                                    year: state.movie.year));
-                                context
-                                    .read<StorageBloc>()
-                                    .add(SeenApiStatus(widget.linkMovie));
-                                Navigator.pushNamed(
-                                    context, VideoplayerScreen.routerName,
-                                    arguments: state.movie);
-                              },
-                            ),
+                            buildWatchButton(state.movie),
                             SizedBox(
                               height: 10,
                             ),
@@ -220,5 +213,91 @@ class _MovieScreenState extends State<MovieScreen> {
           }
           return Container();
         }));
+  }
+
+
+  Widget buildInfoTile(){
+    return Column();
+  }
+
+  Widget buildWatchButton(Movie movie){
+    return IconTextButton(
+      icon: Icons.play_arrow_rounded,
+      text: 'Xem phim',
+      onPressed: () {
+        context.read<StorageBloc>().add(AddToStorage(
+            name: movie.name,
+            slug: movie.slug,
+            originName: movie.originName,
+            posterUrl: movie.posterUrl,
+            thumbUrl: movie.thumbUrl,
+            year: movie.year));
+        context
+            .read<StorageBloc>()
+            .add(SeenApiStatus(widget.linkMovie));
+        Navigator.pushNamed(
+            context, VideoplayerScreen.routerName,
+            arguments: movie);
+      },
+    );
+  }
+
+  Widget buildExitButton(){
+    return InkWell(
+      onTap: (){
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(2),
+        height: 30,
+          width: 30,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black26,
+            border: Border.all(color: Colors.white)
+          ),
+          child: const FittedBox(
+              fit: BoxFit.contain,
+              child: Text('x',style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),))));
+  }
+
+  Widget buildFavouriteButton(){
+    return BlocBuilder<StorageBloc, StorageState>(
+            builder: (context, storageState) {
+              isFavourite =
+                  storageState.items[widget.linkMovie]?.favourite ??
+                      false;
+
+              return InkWell(
+                onTap: () {
+                  context.read<StorageBloc>().add(
+                        AddToStorage(
+                          name: movie.name,
+                          slug: widget.linkMovie,
+                          originName: movie.originName,
+                          posterUrl: movie.posterUrl,
+                          thumbUrl: movie.thumbUrl,
+                          year: movie.year,
+                        ),
+                      );
+
+                  context
+                      .read<StorageBloc>()
+                      .add(FavouriteApiStatus(widget.linkMovie));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Icon(
+                    size: 40,
+                    Icons.favorite,
+                    color: isFavourite ? Colors.red : Colors.grey,
+                  ),
+                ),
+              );
+            },
+          );
   }
 }
