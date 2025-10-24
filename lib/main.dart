@@ -1,11 +1,11 @@
-import 'package:animevn/bloc/storage/storage_bloc.dart';
-import 'package:animevn/database/storage_database.dart';
-import 'package:animevn/screen/splash_screen.dart';
-import 'package:animevn/utils/utils.dart';
+import 'package:animevn/feature/favourite_movie/presentation/state/bloc/storage_bloc.dart';
+import 'package:animevn/shared/service/database/storage_database.dart';
+import 'package:animevn/feature/splash_screen/presentation/view/splash_screen.dart';
+import 'package:animevn/shared/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'constant/route.dart';
+import 'core/constant/route.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
