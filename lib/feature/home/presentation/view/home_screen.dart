@@ -2,6 +2,7 @@ import 'package:animevn/feature/search/presentation/view/search_screen.dart';
 import 'package:animevn/shared/view/all_page_movies_screen.dart';
 import 'package:animevn/shared/widget/list_poster.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../core/constant/app_color.dart';
 import '../../../../core/constant/constant.dart';
 import '../widget/list_movie_gridview_json.dart';
@@ -57,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
         ),
         body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: [
             RefreshIndicator(onRefresh: _refresh, child: _contentMovie()),
@@ -75,14 +77,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildFacebookText() => const Text(
-        'Anime VN',
-        style: TextStyle(
-          color: AppColors.blueColor,
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
+  Widget _buildFacebookText() => Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Hero(
+        tag: 'splash',
+        child: SvgPicture.asset(
+          'assets/logo.svg',
+          height: 40,
+          fit: BoxFit.fill,
         ),
-      );
+      ),
+      const Text(
+            'Anime VN',
+            style: TextStyle(
+              color: AppColors.blueColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+    ],
+  );
 
   Widget _buildSearchWidget() => InkWell(
         onTap: () {
@@ -97,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _contentMovie() => SingleChildScrollView(
         key: UniqueKey(),
         scrollDirection: Axis.vertical,
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: const Column(children: [
           ListPoster(),
           ListMovieRow(

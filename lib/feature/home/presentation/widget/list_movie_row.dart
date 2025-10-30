@@ -56,17 +56,25 @@ class _ListMovieRowState extends State<ListMovieRow> {
                     child: ListView.separated(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       itemBuilder: (BuildContext context, int index) {
+                        final bloc = context.read<MovieBloc>();
+                        final pathImage = widget.isPage == true
+                            ? state.listApi[index].posterUrl
+                            : 'https://phimimg.com/${state.listApi[index].posterUrl}';
                         return InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, MovieScreen.routerName,
-                                  arguments: state.listApi[index].slug);
+                                context,
+                                MovieScreen.routerName,
+                                arguments: {
+                                  'slug': state.listApi[index].slug,
+                                  'bloc': bloc,
+                                  'pathImage': pathImage,
+                                },
+                              );
                             },
                             child: MovieTileHomepage(
                               name: state.listApi[index].name,
-                              posterUrl: widget.isPage == true
-                                  ? state.listApi[index].posterUrl
-                                  : 'https://phimimg.com/${state.listApi[index].posterUrl}',
+                              posterUrl: pathImage,
                               height: 200,
                               widght: 150,
                             ));

@@ -18,7 +18,7 @@ class MovieTileHomepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: height,
       width: widght,
       child: GridTile(
@@ -32,12 +32,17 @@ class MovieTileHomepage extends StatelessWidget {
               style: styleTileItem,
             ),
           ),
-          child: CachedNetworkImage(imageUrl: posterUrl,
-            progressIndicatorBuilder: (context, url, progress) => Center(
-              child: CircularProgressIndicator(
-                value: progress.progress,
+          child: Hero(
+            tag: posterUrl,
+            child: CachedNetworkImage(imageUrl: posterUrl,
+              progressIndicatorBuilder: (context, url, progress) => Center(
+                child: CircularProgressIndicator(
+                  value: progress.progress,
+                ),
               ),
-            ),)),
+            ),
+          )
+      ),
     );
   }
 }
