@@ -9,40 +9,52 @@ class MovieTileHomepage extends StatelessWidget {
       required this.name,
       required this.posterUrl,
       this.height,
-      this.widght});
+      this.width, this.isHome = false});
 
   final String posterUrl;
   final String name;
   final double? height;
-  final double? widght;
+  final double? width;
+  final bool isHome;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: widght,
-      child: GridTile(
-          footer: GridTileBar(
-            backgroundColor: Colors.black26,
-            title: Text(
-              name,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              softWrap: true,
-              style: styleTileItem,
-            ),
-          ),
-          child: Hero(
-            tag: posterUrl,
-            child: CachedNetworkImage(imageUrl: posterUrl,
-              progressIndicatorBuilder: (context, url, progress) => Center(
-                child: CircularProgressIndicator(
-                  value: progress.progress,
+    const double padding = 5;
+    return Container(
+        padding: EdgeInsets.all(isHome ? 0 : padding),
+        height: height,
+        width: width,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CachedNetworkImage(
+                imageUrl: posterUrl,
+                fit: BoxFit.fill,
+                progressIndicatorBuilder: (context, url, progress) => Center(
+                  child: CircularProgressIndicator(
+                    value: progress.progress,
+                  ),
                 ),
               ),
             ),
-          )
-      ),
-    );
+            Positioned(
+                left: 0,
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  color: Colors.black.withOpacity(0.3),
+                  padding: const EdgeInsets.all(padding),
+                  child: Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    softWrap: true,
+                    style: styleTileItem,
+                  ),
+                ))
+          ],
+        )
+
+        );
   }
 }

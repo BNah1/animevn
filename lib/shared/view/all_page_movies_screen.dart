@@ -1,6 +1,7 @@
 import 'package:animevn/core/bloc/movie/movie_bloc.dart';
 import 'package:animevn/core/bloc/movie/movie_event.dart';
 import 'package:animevn/core/bloc/movie/movie_state.dart';
+import 'package:animevn/core/constant/app_color.dart';
 import 'package:animevn/core/constant/const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,14 +26,15 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
     return BlocProvider(
       create: (context) => MovieBloc()..add(UploadCurrentPage(currentPage)),
       child: Scaffold(
+        backgroundColor: AppColors.backgroundColor,
         body: Column(
           children: [
-            Text('Phim mới cập nhập', style: styleTile,),
-            SizedBox(height: 5),
+            const Text('Phim mới cập nhập', style: styleTile,),
+            const SizedBox(height: 5),
             Expanded(
               child: ListMovieGridView(page: currentPage),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +42,7 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
               ),
               _inputPage(),
             ]),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -58,7 +60,7 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
   Widget _inputPage() {
     return BlocBuilder<MovieBloc, MovieState>(builder: (context, state) {
       return InkWell(
-        child: Text('...', style: styleTileIcon,),
+        child: const Text('...', style: styleTileIcon,),
         onTap: () async {
         await  showDialog(
             context: context,
@@ -75,7 +77,7 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
               );
             },
           );
-          context.read<MovieBloc>().add(UploadCurrentPage(currentPage));
+          if(context.mounted) context.read<MovieBloc>().add(UploadCurrentPage(currentPage));
         },
       );
     });
@@ -84,21 +86,22 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
   List<Widget> _buildPageIndicators(List<int> displayPages) {
     return displayPages.map((page) {
       return BlocBuilder<MovieBloc, MovieState>(builder: (context, state) {
+        final isCurrentPage = currentPage == page;
         return GestureDetector(
           onTap: () {
             setState(() {
               currentPage = page;
             });
-            context.read<MovieBloc>()..add(UploadCurrentPage(page));
+            context.read<MovieBloc>().add(UploadCurrentPage(page));
           },
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 4.0),
+            margin: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(
               '$page',
               style: TextStyle(
-                fontSize: currentPage == page ? 20 : 16,
-                fontWeight: FontWeight.bold,
-                color: currentPage == page ? Colors.blue : Colors.black,
+                fontSize: isCurrentPage ? 20 : 16,
+                fontWeight: isCurrentPage ? FontWeight.bold : FontWeight.w500,
+                color: isCurrentPage ? Colors.white : Colors.grey,
               ),
             ),
           ),

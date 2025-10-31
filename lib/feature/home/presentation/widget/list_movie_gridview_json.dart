@@ -70,7 +70,7 @@ class _ListMovieGridViewJsonState extends State<ListMovieGridViewJson> {
                           name: item.api.name,
                           posterUrl: item.api.posterUrl,
                           height: 400,
-                          widght: 300,
+                          width: 300,
                         ),
                         widget.isFavourite ? const SizedBox.shrink() : Positioned(
                           top: 5,

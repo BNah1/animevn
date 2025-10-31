@@ -25,6 +25,13 @@ class ListMovieRow extends StatefulWidget {
 }
 
 class _ListMovieRowState extends State<ListMovieRow> {
+
+  @override
+  void dispose() {
+    print('ListMovieRow dispose');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,14 +53,15 @@ class _ListMovieRowState extends State<ListMovieRow> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 8),
+                          horizontal: 10, vertical: 15),
                       child: Text(
                         widget.title,
                         style: styleTile,
                       )),
                   SizedBox(
-                    height: 230,
+                    height: 180,
                     child: ListView.separated(
+                      shrinkWrap: true,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       itemBuilder: (BuildContext context, int index) {
                         final bloc = context.read<MovieBloc>();
@@ -75,8 +83,8 @@ class _ListMovieRowState extends State<ListMovieRow> {
                             child: MovieTileHomepage(
                               name: state.listApi[index].name,
                               posterUrl: pathImage,
-                              height: 200,
-                              widght: 150,
+                              width: 120,
+                              isHome: true,
                             ));
                       },
                       separatorBuilder: (BuildContext context, int index) {

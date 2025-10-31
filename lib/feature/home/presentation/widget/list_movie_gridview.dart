@@ -50,7 +50,7 @@ class _ListMovieGridViewState extends State<ListMovieGridView> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 2,
-                    childAspectRatio: 3 / 4,
+                    childAspectRatio: 4/6,
                   ),
                   itemCount: state.listApi.length,
                   itemBuilder: (context, index) {
@@ -58,15 +58,23 @@ class _ListMovieGridViewState extends State<ListMovieGridView> {
                         padding: const EdgeInsets.all(2),
                         child: InkWell(
                             onTap: () {
+                              final bloc = context.read<MovieBloc>();
+                              final pathImage = state.listApi[index].posterUrl;
                               Navigator.pushNamed(
-                                  context, MovieScreen.routerName,
-                                  arguments: state.listApi[index].slug);
+                                context,
+                                MovieScreen.routerName,
+                                arguments: {
+                                  'slug': state.listApi[index].slug,
+                                  'bloc': bloc,
+                                  'pathImage': pathImage,
+                                },
+                              );
                             },
                             child: MovieTileHomepage(
                               name: state.listApi[index].name,
                               posterUrl: state.listApi[index].posterUrl,
-                              height: 200,
-                              widght: 150,
+                              height: 220,
+                              width: 150,
                             )));
                   },
                 ),

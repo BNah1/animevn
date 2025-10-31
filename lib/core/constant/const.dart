@@ -8,6 +8,32 @@ const dColorIconButton = Colors.blue;
 const sizeIconButton = 24.0;
 const dColorFooterImage = Colors.white60;
 
+
+TextStyle getText({
+  Color color = Colors.white,
+  double fontSize = 15,
+  FontWeight fontWeight = FontWeight.bold,
+  FontStyle fontStyle = FontStyle.normal,
+  double letterSpacing = 0,
+  double wordSpacing = 0,
+  TextDecoration decoration = TextDecoration.none,
+  Color? decorationColor,
+  double? height,
+}) {
+  return TextStyle(
+    color: color,
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    fontStyle: fontStyle,
+    letterSpacing: letterSpacing,
+    wordSpacing: wordSpacing,
+    decoration: decoration,
+    decorationColor: decorationColor,
+    height: height,
+  );
+}
+
+
 const styleTileItem = TextStyle(
   color: Colors.white,
   fontSize: 15,
@@ -27,7 +53,7 @@ const styleTextInButton = TextStyle(
 );
 
 const styleTile = TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontSize: 20,
   fontWeight: FontWeight.bold,
 );

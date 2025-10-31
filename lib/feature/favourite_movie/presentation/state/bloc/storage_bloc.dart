@@ -42,7 +42,8 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
               originName: event.originName,
               posterUrl: event.posterUrl,
               thumbUrl: event.thumbUrl,
-              year: event.year)
+              year: event.year
+          )
       );
       final items = Map<String, ApiStatus>.from(state.items);
       print('add : ${event.slug}, seen: ${event.seen}, favourite: ${event

@@ -25,7 +25,7 @@ class _CirclePathAnimationState extends State<CirclePathAnimation>
   late CurvedAnimation _curvedGather;
 
   bool isStart = false;
-  static const int maxDots = 5;
+  static const int maxDots = 4;
   int currentDots = 1;
 
   static const double baseRadius = 60;
@@ -66,7 +66,7 @@ class _CirclePathAnimationState extends State<CirclePathAnimation>
 
     _revealController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800),
+      duration: const Duration(milliseconds: 1200),
     );
 
     _curvedReveal = CurvedAnimation(

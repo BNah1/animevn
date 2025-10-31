@@ -51,6 +51,24 @@ class Constants {
       image:
           'https://phimimg.com//upload//vod//20240920-1//649b3d26d7f469eddba585430bdf9fb5.jpg',
     ),
+    Poster(
+      id: '01',
+      name: 'MOVIE1',
+      image:
+      'https://phimimg.com\/upload\/vod\/20230929-1//a6110983f8de490e116383020adc4662.jpg',
+    ),
+    Poster(
+      id: '01',
+      name: 'MOVIE1',
+      image:
+      'https://phimimg.com//upload//vod//20231029-1//134b92a92d78f905d7c60f92a8b03846.jpg',
+    ),
+    Poster(
+      id: '01',
+      name: 'MOVIE1',
+      image:
+      'https://phimimg.com//upload//vod//20240920-1//649b3d26d7f469eddba585430bdf9fb5.jpg',
+    ),
   ];
 
   Constants._();

@@ -41,9 +41,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
+        backgroundColor: AppColors.backgroundColor,
         appBar: AppBar(
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor: AppColors.backgroundColor,
           elevation: 0,
           title: _buildFacebookText(),
           actions: [
@@ -140,6 +140,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             link: 'https://phimapi.com/v1/api/danh-sach/phim-bo',
             isPage: false,
           ),
+
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text('WWE John Cena ---- Dev lỏ',style: TextStyle(color: Colors.white),),
+          )
         ]),
       );
 }
