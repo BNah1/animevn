@@ -1,12 +1,8 @@
 import 'package:animevn/feature/search/presentation/view/search_screen.dart';
-import 'package:animevn/shared/view/all_page_movies_screen.dart';
-import 'package:animevn/shared/widget/list_poster.dart';
+import 'package:animevn/shared/widget/custom_bottom_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import '../../../../core/constant/app_color.dart';
-import '../../../../core/constant/constant.dart';
-import '../widget/list_movie_gridview_json.dart';
-import '../widget/list_movie_row.dart';
+import 'package:animevn/core/constant/app_color.dart';
+import 'package:animevn/core/constant/app_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,30 +13,35 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late final TabController _tabController;
+class _HomeScreenState extends State<HomeScreen> {
+  final PageController _pageController = PageController();
+  int _selectedIndex = 0;
+  bool isSearching = false;
 
   @override
   void initState() {
-    _tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
-  Future<void> _refresh() async {
-    setState(() {});
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    _pageController.jumpToPage(index);
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: AppTab.tabViews().length,
       child: Scaffold(
+        extendBody: true,
         backgroundColor: AppColors.backgroundColor,
         appBar: AppBar(
           backgroundColor: AppColors.backgroundColor,
@@ -49,46 +50,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           actions: [
             _buildSearchWidget(),
           ],
-          bottom: TabBar(
-            tabs: Constants.getHomeScreenTabs(_tabController.index),
-            controller: _tabController,
-            onTap: (index) {
-              setState(() {});
-            },
-          ),
         ),
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _tabController,
+        body: Stack(
           children: [
-            RefreshIndicator(onRefresh: _refresh, child: _contentMovie()),
-            AllPageMoviesScreen(),
-            const ListMovieGridViewJson(
-              title: 'Phim yêu thích',
-              isFavourite: true,
+            PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(), // Tắt vuốt tay nếu chỉ muốn bấm tab
+              children: AppTab.tabViews(),
             ),
-            const ListMovieGridViewJson(
-              title: 'Đang theo dõi ',
-              isFavourite: false,
-            ),
+            CustomBottomTabBar(
+                selectedIndex: _selectedIndex,
+                onItemTapped: _onItemTapped,
+                onCenterTap: (){
+                  _onItemTapped(2);
+                })
           ],
         ),
-      ),
+      )
     );
   }
 
-  Widget _buildFacebookText() => Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Hero(
-        tag: 'splash',
-        child: SvgPicture.asset(
-          'assets/logo.svg',
-          height: 40,
-          fit: BoxFit.fill,
-        ),
-      ),
-      const Text(
+  Widget _buildFacebookText() => const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
             'Anime VN',
             style: TextStyle(
               color: AppColors.blueColor,
@@ -96,55 +81,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               fontWeight: FontWeight.bold,
             ),
           ),
-    ],
-  );
+        ],
+      );
 
   Widget _buildSearchWidget() => InkWell(
         onTap: () {
-          Navigator.pushNamed(context, SearchScreen.routeName);
+          setState(() {
+            isSearching = true;
+          });
+          // Navigator.pushNamed(context, SearchScreen.routeName);
         },
         child: const Icon(
           Icons.search,
           size: 30,
         ),
-      );
-
-  Widget _contentMovie() => SingleChildScrollView(
-        key: UniqueKey(),
-        scrollDirection: Axis.vertical,
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: const Column(children: [
-          ListPoster(),
-          ListMovieRow(
-            title: 'Anime',
-            link: 'https://phimapi.com/v1/api/danh-sach/hoat-hinh',
-            isPage: false,
-          ),
-          ListMovieRow(
-            title: 'TV-Show',
-            link: 'https://phimapi.com/v1/api/danh-sach/tv-shows',
-            isPage: false,
-          ),
-          ListMovieRow(
-            title: 'Phim mới cập nhập',
-            link: 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=2',
-            isPage: true,
-          ),
-          ListMovieRow(
-            title: 'Phim lẻ',
-            link: 'https://phimapi.com/v1/api/the-loai/hanh-dong',
-            isPage: false,
-          ),
-          ListMovieRow(
-            title: 'Phim bộ',
-            link: 'https://phimapi.com/v1/api/danh-sach/phim-bo',
-            isPage: false,
-          ),
-
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Text('WWE John Cena ---- Dev lỏ',style: TextStyle(color: Colors.white),),
-          )
-        ]),
       );
 }

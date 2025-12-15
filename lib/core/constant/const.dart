@@ -59,7 +59,7 @@ const styleTile = TextStyle(
 );
 
 const styleTileIcon = TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontSize: 15,
   fontWeight: FontWeight.bold,
 );

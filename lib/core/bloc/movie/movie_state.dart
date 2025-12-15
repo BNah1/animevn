@@ -1,6 +1,5 @@
 import 'package:animevn/model/apirespone.dart';
 
-import '../../../model/movie.dart';
 
 abstract class MovieState {}
 
@@ -13,10 +12,6 @@ class ApiLoaded extends MovieState{
   ApiLoaded(this.listApi);
 }
 
-class MovieLoaded extends MovieState{
-  final Movie movie;
-  MovieLoaded(this.movie);
-}
 
 class MovieError extends MovieState{
   final String message;

@@ -1,8 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animevn/core/bloc/movie/movie_bloc.dart';
-import 'package:animevn/core/bloc/movie/movie_event.dart';
-import 'package:animevn/core/bloc/movie/movie_state.dart';
 import 'package:animevn/core/constant/const.dart';
+import 'package:animevn/core/state/base_state.dart';
+import 'package:animevn/core/state/movie_detail/movie_detail_cubit.dart';
 import 'package:animevn/feature/favourite_movie/presentation/state/bloc/storage_bloc.dart';
 import 'package:animevn/feature/favourite_movie/presentation/state/bloc/storage_event.dart';
 import 'package:animevn/feature/movie/presentation/widget/info_tile.dart';
@@ -16,11 +15,17 @@ import '../../../favourite_movie/presentation/state/bloc/storage_state.dart';
 import '../../../../model/movie.dart';
 import '../../../../shared/widget/loading.dart';
 
+
+const Color  _textTitleColor= Colors.white;
+const Color  textDetailColor= Colors.white70;
+
+
 class MovieScreen extends StatefulWidget {
-  const MovieScreen({Key? key, required this.linkMovie, required this.pathImage}) : super(key: key);
+  const MovieScreen({Key? key, required this.linkMovie, required this.pathImage, required this.heroTag}) : super(key: key);
   static const routerName = '/movie';
   final String linkMovie;
   final String pathImage;
+  final String heroTag;
 
   @override
   State<MovieScreen> createState() => _MovieScreenState();
@@ -32,34 +37,36 @@ class _MovieScreenState extends State<MovieScreen> {
 
   @override
   void initState() {
-    context.read<MovieBloc>().add(LoadMovieByUrl(widget.linkMovie));
+    print('movie Screen');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocBuilder<MovieBloc, MovieState>(builder: (context, state) {
-      if (state is MovieLoading) {
-        return buildImageAppBar(isLoading: true);
-      } else if (state is MovieError) {
-        return Center(
-          child: Text(state.message),
-        );
-      } else if (state is MovieLoaded) {
-        movie = state.movie;
-        return Scaffold(
-            backgroundColor: Colors.white,
-            body: Stack(
-              children: [
-                buildBody(size),
-
-                buildButtonAppBar(),
-              ],
-            ));
-      }
-      return Container();
-    });
+    return BlocProvider<MovieDetailCubit>(
+      create: (context) => MovieDetailCubit(widget.linkMovie),
+      child: BlocBuilder<MovieDetailCubit, MovieDetailState>(builder: (context, state) {
+        if (state.status == BaseStatus.loading) {
+          return buildImageAppBar(isLoading: true);
+        } else if (state.status == BaseStatus.error) {
+          return Center(
+            child: Text(state.errorMessage),
+          );
+        } else if (state.status == BaseStatus.loaded) {
+          movie = state.movie!;
+          return Scaffold(
+              backgroundColor: Colors.white,
+              body: Stack(
+                children: [
+                  buildBody(size),
+                  buildButtonAppBar(),
+                ],
+              ));
+        }
+        return Container();
+      }),
+    );
   }
   
   Widget buildBody(Size size){
@@ -105,17 +112,17 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget buildImageAppBar({bool isLoading = false}){
     final height = MediaQuery.of(context).size.height;
     return Hero(
-      tag: widget.pathImage,
+      tag: widget.heroTag,
       child: AnimatedContainer(
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeInOut,
           height: height,
-      
+
           // height: isLoading ? height : height / 2,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: CachedNetworkImageProvider(widget.pathImage),
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
           child: isLoading ? const Loader() : null
@@ -132,17 +139,17 @@ class _MovieScreenState extends State<MovieScreen> {
         padding: EdgeInsets.only(top: height/2),
         child: Container(
           padding: EdgeInsets.all(15),
-          color: Colors.white,
+          color: Colors.black,
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
             buildWatchButton(movie),
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: paddingSimple),
-              child: Text(movie.name,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22),),
+              child: Text(movie.name,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: _textTitleColor),),
             ),
 
-            InfoTile(movie: movie),
+            InfoTile(movie: movie, textColor:_textTitleColor ),
             buildContentTile(movie),
             const ListActionButtonMovie(),
             const SizedBox(height: 80,)
@@ -156,15 +163,16 @@ class _MovieScreenState extends State<MovieScreen> {
   Widget buildContentTile(Movie movie){
 
     Widget button(){
+      final color =  Colors.white;
       return  InkWell(
         onTap: (){
           print('showBottom');
         },
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-          Text('Chi tiết',style: TextStyle(fontWeight: FontWeight.bold),),
-          Icon(Icons.arrow_drop_down_rounded,size: 50,)
+          Text('Chi tiết',style: TextStyle(fontWeight: FontWeight.bold, color: color,fontSize: 12),),
+          Icon(Icons.arrow_drop_down_rounded,color: color,)
         ],),
       );
     }
@@ -172,7 +180,7 @@ class _MovieScreenState extends State<MovieScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: paddingSimple),
       child: Row(children: [
-        Expanded(child: Text(movie.content,overflow: TextOverflow.ellipsis,maxLines: 4,)),
+        Expanded(child: Text(movie.content,overflow: TextOverflow.ellipsis,maxLines: 4,style: TextStyle(color: textDetailColor),)),
         button()
       ],),
     );
@@ -185,13 +193,14 @@ class _MovieScreenState extends State<MovieScreen> {
       child: Transform.translate(
         offset: const Offset(0, 1),
         child: Container(
-          height: 30, // Chiều cao tùy chỉnh
+          // height: 30, // Chiều cao tùy chỉnh
+          height: 0, // Chiều cao tùy chỉnh
           decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
-            ),
+            color: Colors.black,
+            // borderRadius: BorderRadius.only(
+            //   topLeft: Radius.circular(40),
+            //   topRight: Radius.circular(40),
+            // ),
           ),
           child: Column(
             mainAxisAlignment:
@@ -217,6 +226,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   Widget buildWatchButton(Movie movie) {
     return IconTextButton(
+      color: Colors.black,
       padding: 0,
       icon: Icons.play_arrow_rounded,
       text: 'Xem phim',

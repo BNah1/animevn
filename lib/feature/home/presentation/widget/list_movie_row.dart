@@ -64,7 +64,6 @@ class _ListMovieRowState extends State<ListMovieRow> {
                       shrinkWrap: true,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       itemBuilder: (BuildContext context, int index) {
-                        final bloc = context.read<MovieBloc>();
                         final pathImage = widget.isPage == true
                             ? state.listApi[index].posterUrl
                             : 'https://phimimg.com/${state.listApi[index].posterUrl}';
@@ -75,8 +74,8 @@ class _ListMovieRowState extends State<ListMovieRow> {
                                 MovieScreen.routerName,
                                 arguments: {
                                   'slug': state.listApi[index].slug,
-                                  'bloc': bloc,
                                   'pathImage': pathImage,
+                                  'heroTag': 'item_row_$pathImage ${widget.title}'
                                 },
                               );
                             },
@@ -84,7 +83,7 @@ class _ListMovieRowState extends State<ListMovieRow> {
                               name: state.listApi[index].name,
                               posterUrl: pathImage,
                               width: 120,
-                              isHome: true,
+                              isHome: true, heroTag: 'item_row_$pathImage ${widget.title}',
                             ));
                       },
                       separatorBuilder: (BuildContext context, int index) {

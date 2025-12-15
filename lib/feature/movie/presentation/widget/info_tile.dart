@@ -1,12 +1,16 @@
 import 'package:animevn/core/constant/app_color.dart';
 import 'package:animevn/core/constant/const.dart';
+import 'package:animevn/feature/movie/presentation/view/movie_screen.dart';
 import 'package:animevn/model/movie.dart';
 import 'package:flutter/material.dart';
 
+
+
 class InfoTile extends StatelessWidget {
-  const InfoTile({super.key, required this.movie});
+  const InfoTile({super.key, required this.movie, required this.textColor});
 
   final Movie movie;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +54,7 @@ class InfoTile extends StatelessWidget {
                   : const SizedBox.shrink(),
               Text(
                 name,
+                style: TextStyle(color: color, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -66,7 +71,7 @@ class InfoTile extends StatelessWidget {
               name: 'T ${movie.episodeTotal}',
               gradient: AppColors.buttonGradientColor,
               haveBackground: true,
-              color: Colors.white),
+              color: Colors.black),
           buildItem(name: movie.year, color: Colors.greenAccent),
         ],
       ),
@@ -81,12 +86,12 @@ class InfoTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               vertical: paddingSimple / 2.5, horizontal: paddingSimple),
           decoration: BoxDecoration(
-            color: Colors.grey,
+            color: Colors.white10,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
             name,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: textDetailColor),
           ),
         ),
       );

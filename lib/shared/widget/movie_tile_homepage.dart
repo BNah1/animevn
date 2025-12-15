@@ -9,13 +9,14 @@ class MovieTileHomepage extends StatelessWidget {
       required this.name,
       required this.posterUrl,
       this.height,
-      this.width, this.isHome = false});
+      this.width, this.isHome = false, required this.heroTag});
 
   final String posterUrl;
   final String name;
   final double? height;
   final double? width;
   final bool isHome;
+  final String heroTag;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +28,15 @@ class MovieTileHomepage extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: CachedNetworkImage(
-                imageUrl: posterUrl,
-                fit: BoxFit.fill,
-                progressIndicatorBuilder: (context, url, progress) => Center(
-                  child: CircularProgressIndicator(
-                    value: progress.progress,
+              child: Hero(
+                tag: heroTag,
+                child: CachedNetworkImage(
+                  imageUrl: posterUrl,
+                  fit: BoxFit.fill,
+                  progressIndicatorBuilder: (context, url, progress) => Center(
+                    child: CircularProgressIndicator(
+                      value: progress.progress,
+                    ),
                   ),
                 ),
               ),

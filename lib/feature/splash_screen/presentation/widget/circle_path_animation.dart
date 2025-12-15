@@ -129,9 +129,13 @@ class _CirclePathAnimationState extends State<CirclePathAnimation>
   }
 
   void _navigate() {
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const HomeScreen()),
-    );
+    ).then((_) {
+      if (mounted) {
+        Navigator.of(context).removeRoute(ModalRoute.of(context)!);
+      }
+    });
 
   }
 

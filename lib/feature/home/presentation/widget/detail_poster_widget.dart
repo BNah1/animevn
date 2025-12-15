@@ -1,4 +1,3 @@
-import 'package:animevn/core/bloc/movie/movie_bloc.dart';
 import 'package:animevn/core/constant/app_color.dart';
 import 'package:animevn/core/constant/const.dart';
 import 'package:animevn/feature/movie/presentation/view/movie_screen.dart';
@@ -6,7 +5,6 @@ import 'package:animevn/model/apirespone.dart';
 import 'package:animevn/shared/utils/string_utils.dart';
 import 'package:animevn/shared/widget/icon_text_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailPosterWidget extends StatelessWidget {
   const DetailPosterWidget({super.key, required this.api});
@@ -56,21 +54,24 @@ class DetailPosterWidget extends StatelessWidget {
         icon: Icons.play_arrow_rounded,
         text: 'Xem phim',
         onPressed: () {
-          final bloc = context.read<MovieBloc>();
-          final pathImage = api.posterUrl;
-          Navigator.pushNamed(
-            context,
-            MovieScreen.routerName,
-            arguments: {
-              'slug': api.slug,
-              'bloc': bloc,
-              'pathImage': pathImage,
-            },
-          );
+          navMovieDetail(context);
         },
       ),
     );
   }
+
+  void navMovieDetail(BuildContext context){
+    final pathImage = api.posterUrl;
+    Navigator.pushNamed(
+      context,
+      MovieScreen.routerName,
+      arguments: {
+        'slug': api.slug,
+        'pathImage': pathImage,
+        'heroTag': 'detail_$pathImage'
+      },
+    );
+}
 
   Widget _buildItem(
       {required String name,

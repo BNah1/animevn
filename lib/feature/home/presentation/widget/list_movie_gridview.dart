@@ -54,19 +54,18 @@ class _ListMovieGridViewState extends State<ListMovieGridView> {
                   ),
                   itemCount: state.listApi.length,
                   itemBuilder: (context, index) {
+                    final pathImage = state.listApi[index].posterUrl;
                     return Padding(
                         padding: const EdgeInsets.all(2),
                         child: InkWell(
                             onTap: () {
-                              final bloc = context.read<MovieBloc>();
-                              final pathImage = state.listApi[index].posterUrl;
                               Navigator.pushNamed(
                                 context,
                                 MovieScreen.routerName,
                                 arguments: {
                                   'slug': state.listApi[index].slug,
-                                  'bloc': bloc,
                                   'pathImage': pathImage,
+                                  'heroTag': 'item_grid_$pathImage'
                                 },
                               );
                             },
@@ -74,7 +73,7 @@ class _ListMovieGridViewState extends State<ListMovieGridView> {
                               name: state.listApi[index].name,
                               posterUrl: state.listApi[index].posterUrl,
                               height: 220,
-                              width: 150,
+                              width: 150, heroTag: 'item_grid_$pathImage',
                             )));
                   },
                 ),

@@ -27,22 +27,39 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
       create: (context) => MovieBloc()..add(UploadCurrentPage(currentPage)),
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
-        body: Column(
+        body: Stack(
           children: [
-            const Text('Phim mới cập nhập', style: styleTile,),
-            const SizedBox(height: 5),
-            Expanded(
-              child: ListMovieGridView(page: currentPage),
+            Column(
+              children: [
+                const Text('Phim mới cập nhập', style: styleTile,),
+                const SizedBox(height: 5),
+                Expanded(
+                  child: ListMovieGridView(page: currentPage),
+                ),
+                // const SizedBox(height: 5),
+                const SizedBox(height: 60),
+              ],
             ),
-            const SizedBox(height: 5),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _buildPageIndicators(displayPages),
+
+            Positioned(
+              bottom: 70,
+              right: 20,
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white54
+                ),
+                child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: _buildPageIndicators(displayPages),
+                      ),
+                      _inputPage(),
+                    ]),
               ),
-              _inputPage(),
-            ]),
-            const SizedBox(height: 10),
+            ),
           ],
         ),
       ),
@@ -101,7 +118,7 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
               style: TextStyle(
                 fontSize: isCurrentPage ? 20 : 16,
                 fontWeight: isCurrentPage ? FontWeight.bold : FontWeight.w500,
-                color: isCurrentPage ? Colors.white : Colors.grey,
+                color: isCurrentPage ? Colors.black : Colors.white,
               ),
             ),
           ),

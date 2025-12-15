@@ -19,8 +19,9 @@ class ListPoster extends StatefulWidget {
   _ListPosterState createState() => _ListPosterState();
 }
 
-class _ListPosterState extends State<ListPoster> {
 
+
+class _ListPosterState extends State<ListPoster> {
   @override
   void dispose() {
     print('ListPoster dispose');
@@ -31,7 +32,7 @@ class _ListPosterState extends State<ListPoster> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MovieBloc()..add( LoadApiResponseWithPage(_link)),
+      create: (context) => MovieBloc()..add(LoadApiResponseWithPage(_link)),
       child: BlocBuilder<MovieBloc, MovieState>(builder: (context, state) {
         if (state is MovieLoading) {
           return const Loader();
@@ -49,17 +50,27 @@ class _ListPosterState extends State<ListPoster> {
 
   Widget buildListPoster(List<ApiResponse> list) {
     List<Widget> listWidgets = [];
-    listWidgets =
-        list.map((poster) => PosterWidget(api: poster,)).toList();
+    listWidgets = list
+        .map((poster) => PosterWidget(
+              api: poster,
+            ))
+        .toList();
     List<Widget> listWidgetInfo = [];
-    listWidgetInfo =
-        list.map((poster) => DetailPosterWidget(api: poster,)).toList();
+    listWidgetInfo = list
+        .map((poster) => DetailPosterWidget(
+              api: poster,
+            ))
+        .toList();
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
           height: 550,
           width: double.infinity,
-          child: CustomSliderCard(listWidgets: listWidgets, height: 500, listWidgetInfo: listWidgetInfo,)),
+          child: CustomSliderCard(
+            listWidgets: listWidgets,
+            height: 500,
+            listWidgetInfo: listWidgetInfo,
+          )),
     );
   }
 }

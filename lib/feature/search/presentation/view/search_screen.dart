@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:animevn/core/bloc/movie/movie_bloc.dart';
 import 'package:animevn/core/bloc/movie/movie_state.dart';
 import 'package:animevn/core/constant/const.dart';
@@ -9,10 +10,11 @@ import '../../../../core/bloc/movie/movie_event.dart';
 import '../../../../shared/widget/loading.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, required this.onTap});
 
   static const routeName = '/search';
 
+  final Function onTap;
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -24,36 +26,45 @@ class _SearchScreenState extends State<SearchScreen> {
     return BlocProvider(
       create: (context) => MovieBloc()..add(SearchMovies('anime')),
       child: BlocBuilder<MovieBloc, MovieState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Card(
-                child: TextField(
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Nhập từ khóa ...',
+        builder: (blocContext, state) {
+          return FadeInRight(
+            // duration: const Duration(milliseconds: 500), // Thời gian animation
+            child: Scaffold(
+              backgroundColor: Colors.grey,
+              appBar: AppBar(
+                leading: GestureDetector(
+                    onTap: (){
+                      widget.onTap();
+                    },
+                    child: Icon(Icons.arrow_back_ios)),
+                title: Card(
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'Nhập từ khóa ...',
+                    ),
+                    onChanged: (val) {
+                      if (val.isNotEmpty) {
+                        isSearched = true;
+                        BlocProvider.of<MovieBloc>(blocContext)
+                            .add(SearchMovies(val));
+                      } else {
+                        isSearched = false;
+                        BlocProvider.of<MovieBloc>(blocContext)
+                            .add(SearchMovies('anime'));
+                      }
+                    },
                   ),
-                  onChanged: (val) {
-                    if (val.isNotEmpty) {
-                      isSearched = true;
-                      BlocProvider.of<MovieBloc>(context)
-                          .add(SearchMovies(val));
-                    } else {
-                      isSearched = false;
-                      BlocProvider.of<MovieBloc>(context)
-                          .add(SearchMovies('anime'));
-                    }
-                  },
                 ),
               ),
+              body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                    child: isSearched == false ? const Text('Top tim kiem: ',style: styleTile,) : SizedBox.shrink()),
+                Expanded(child: _buildBody(state))] ),
             ),
-            body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                  child: isSearched == false ? const Text('Top tim kiem: ',style: styleTile,) : SizedBox.shrink()),
-              Expanded(child: _buildBody(state))] ),
           );
         },
       ),

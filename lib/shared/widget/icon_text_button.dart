@@ -53,7 +53,7 @@ class IconTextButton extends StatelessWidget {
             children: [
               FaIcon(
                 icon,
-                color: Colors.white,
+                color:color ?? Colors.black,
               ),
               // Biểu tượng
               const SizedBox(width: 8),
