@@ -21,8 +21,7 @@ const Color  textDetailColor= Colors.white70;
 
 
 class MovieScreen extends StatefulWidget {
-  const MovieScreen({Key? key, required this.linkMovie, required this.pathImage, required this.heroTag}) : super(key: key);
-  static const routerName = '/movie';
+  const MovieScreen({super.key, required this.linkMovie, required this.pathImage, required this.heroTag});
   final String linkMovie;
   final String pathImage;
   final String heroTag;

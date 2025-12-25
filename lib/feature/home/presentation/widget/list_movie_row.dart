@@ -1,13 +1,13 @@
 import 'package:animevn/core/bloc/movie/movie_bloc.dart';
 import 'package:animevn/core/bloc/movie/movie_event.dart';
 import 'package:animevn/core/bloc/movie/movie_state.dart';
+import 'package:animevn/core/constant/route.dart';
 import 'package:animevn/shared/widget/movie_tile_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constant/const.dart';
 import '../../../../shared/widget/loading.dart';
-import '../../../movie/presentation/view/movie_screen.dart';
 
 class ListMovieRow extends StatefulWidget {
   const ListMovieRow(
@@ -71,7 +71,7 @@ class _ListMovieRowState extends State<ListMovieRow> {
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                MovieScreen.routerName,
+                                AppRoutes.movie,
                                 arguments: {
                                   'slug': state.listApi[index].slug,
                                   'pathImage': pathImage,

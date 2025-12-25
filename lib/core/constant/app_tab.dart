@@ -1,4 +1,5 @@
 import 'package:animevn/feature/home/presentation/view/home_movie_content_view.dart';
+import 'package:animevn/feature/user/presentation/view/user_view.dart';
 import 'package:animevn/shared/view/all_page_movies_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -58,16 +59,8 @@ class AppTab {
   static List<Widget> tabViews() {
     return [
       const HomeMovieContentView(),
-      AllPageMoviesScreen(),
-      const Scaffold(
-        backgroundColor: Colors.black,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-          ],
-        ),
-      ),
-
+      const AllPageMoviesView(),
+      const UserView()
     ];
   }
 

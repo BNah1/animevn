@@ -1,4 +1,3 @@
-import 'package:animevn/feature/search/presentation/view/search_screen.dart';
 import 'package:animevn/shared/widget/custom_bottom_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animevn/core/constant/app_color.dart';
@@ -43,19 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         extendBody: true,
         backgroundColor: AppColors.backgroundColor,
-        appBar: AppBar(
-          backgroundColor: AppColors.backgroundColor,
-          elevation: 0,
-          title: _buildFacebookText(),
-          actions: [
-            _buildSearchWidget(),
-          ],
-        ),
         body: Stack(
           children: [
             PageView(
               controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(), // Tắt vuốt tay nếu chỉ muốn bấm tab
+              physics: const NeverScrollableScrollPhysics(),
               children: AppTab.tabViews(),
             ),
             CustomBottomTabBar(
@@ -70,30 +61,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFacebookText() => const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Anime VN',
-            style: TextStyle(
-              color: AppColors.blueColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      );
-
-  Widget _buildSearchWidget() => InkWell(
-        onTap: () {
-          setState(() {
-            isSearching = true;
-          });
-          // Navigator.pushNamed(context, SearchScreen.routeName);
-        },
-        child: const Icon(
-          Icons.search,
-          size: 30,
-        ),
-      );
 }

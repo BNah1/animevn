@@ -1,6 +1,6 @@
 import 'package:animevn/core/constant/app_color.dart';
 import 'package:animevn/core/constant/const.dart';
-import 'package:animevn/feature/movie/presentation/view/movie_screen.dart';
+import 'package:animevn/core/constant/route.dart';
 import 'package:animevn/model/apirespone.dart';
 import 'package:animevn/shared/utils/string_utils.dart';
 import 'package:animevn/shared/widget/icon_text_button.dart';
@@ -18,7 +18,10 @@ class DetailPosterWidget extends StatelessWidget {
       children: [
         Text(
           api.name,
-          style: getText(),
+          style: getText(fontSize: 20),
+          maxLines: 2,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
         ),
 
         buildWatchButton(context),
@@ -64,7 +67,7 @@ class DetailPosterWidget extends StatelessWidget {
     final pathImage = api.posterUrl;
     Navigator.pushNamed(
       context,
-      MovieScreen.routerName,
+      AppRoutes.movie,
       arguments: {
         'slug': api.slug,
         'pathImage': pathImage,

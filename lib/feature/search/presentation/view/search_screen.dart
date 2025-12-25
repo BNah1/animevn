@@ -5,16 +5,12 @@ import 'package:animevn/core/constant/const.dart';
 import 'package:animevn/shared/widget/movie_tile_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/bloc/movie/movie_event.dart';
-import '../../../../shared/widget/loading.dart';
+import 'package:animevn/core/bloc/movie/movie_event.dart';
+import 'package:animevn/shared/widget/loading.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key, required this.onTap});
+  const SearchScreen({super.key});
 
-  static const routeName = '/search';
-
-  final Function onTap;
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -32,11 +28,10 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Scaffold(
               backgroundColor: Colors.grey,
               appBar: AppBar(
-                leading: GestureDetector(
-                    onTap: (){
-                      widget.onTap();
-                    },
-                    child: Icon(Icons.arrow_back_ios)),
+                // leading: GestureDetector(
+                //     onTap: (){
+                //     },
+                //     child: Icon(Icons.arrow_back_ios)),
                 title: Card(
                   child: TextField(
                     decoration: const InputDecoration(

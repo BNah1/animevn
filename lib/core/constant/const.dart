@@ -29,7 +29,7 @@ TextStyle getText({
     wordSpacing: wordSpacing,
     decoration: decoration,
     decorationColor: decorationColor,
-    height: height,
+    height: height
   );
 }
 

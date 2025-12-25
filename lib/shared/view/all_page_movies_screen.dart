@@ -3,19 +3,20 @@ import 'package:animevn/core/bloc/movie/movie_event.dart';
 import 'package:animevn/core/bloc/movie/movie_state.dart';
 import 'package:animevn/core/constant/app_color.dart';
 import 'package:animevn/core/constant/const.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:animevn/shared/widget/custom_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:animevn/shared/widget/number_edit_widget.dart';
+import 'package:animevn/feature/home/presentation/widget/list_movie_gridview.dart';
 
-import '../widget/number_edit_widget.dart';
-import '../../feature/home/presentation/widget/list_movie_gridview.dart';
+class AllPageMoviesView extends StatefulWidget {
+  const AllPageMoviesView({super.key});
 
-class AllPageMoviesScreen extends StatefulWidget {
   @override
-  _AllPageMoviesScreenState createState() => _AllPageMoviesScreenState();
+  _AllPageMoviesViewState createState() => _AllPageMoviesViewState();
 }
 
-class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
+class _AllPageMoviesViewState extends State<AllPageMoviesView> {
   final int totalPages = 1878;
   int currentPage = 1;
 
@@ -26,6 +27,7 @@ class _AllPageMoviesScreenState extends State<AllPageMoviesScreen> {
     return BlocProvider(
       create: (context) => MovieBloc()..add(UploadCurrentPage(currentPage)),
       child: Scaffold(
+        appBar: const CustomAppBarWidget() as PreferredSizeWidget?,
         backgroundColor: AppColors.backgroundColor,
         body: Stack(
           children: [

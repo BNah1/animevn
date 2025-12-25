@@ -1,4 +1,4 @@
-import 'package:animevn/feature/movie/presentation/view/movie_screen.dart';
+import 'package:animevn/core/constant/route.dart';
 import 'package:animevn/model/apirespone.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class PosterWidget extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            MovieScreen.routerName,
+            AppRoutes.movie,
             arguments: {
               'slug': api.slug,
               'pathImage': pathImage,

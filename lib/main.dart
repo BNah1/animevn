@@ -28,6 +28,9 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           onGenerateRoute: Routes.generateRoute,
+          navigatorObservers: [
+            AppRouteObserver(),
+          ],
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(

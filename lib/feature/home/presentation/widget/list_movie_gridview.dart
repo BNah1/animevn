@@ -1,12 +1,11 @@
 import 'package:animevn/core/bloc/movie/movie_bloc.dart';
 import 'package:animevn/core/bloc/movie/movie_event.dart';
 import 'package:animevn/core/bloc/movie/movie_state.dart';
-import 'package:animevn/feature/movie/presentation/view/movie_screen.dart';
+import 'package:animevn/core/constant/route.dart';
 import 'package:animevn/shared/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../shared/widget/movie_tile_homepage.dart';
+import 'package:animevn/shared/widget/movie_tile_homepage.dart';
 
 class ListMovieGridView extends StatefulWidget {
   const ListMovieGridView({super.key, required this.page});
@@ -61,7 +60,7 @@ class _ListMovieGridViewState extends State<ListMovieGridView> {
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
-                                MovieScreen.routerName,
+                                AppRoutes.movie,
                                 arguments: {
                                   'slug': state.listApi[index].slug,
                                   'pathImage': pathImage,
